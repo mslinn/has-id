@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/mslinn/has-id.svg?branch=master)](https://travis-ci.org/mslinn/has-id)
 [![GitHub version](https://badge.fury.io/gh/mslinn%2Fshas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
 
+Low-level project useful for persistence.
+
 ## Installation
 Add this to your project's `build.sbt`:
 

@@ -1,0 +1,1 @@
+Index.PACKAGES = {"com" : [], "com.micronautics" : [{"case class" : "com\/micronautics\/Id.html", "name" : "com.micronautics.Id"}]};

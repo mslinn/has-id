@@ -1,10 +1,10 @@
 organization := "com.micronautics"
 
 name := "has-id"
-
-version := "1.0.1"
-
-scalaVersion := "2.11.8"
+version := "1.0.0"
+licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+scalaVersion := "2.11.11"
+crossScalaVersions := Seq(scalaVersion.value, "2.12.2")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -24,7 +24,7 @@ scalacOptions ++= Seq(
 scalacOptions in (Compile, doc) ++= baseDirectory.map {
   (bd: File) => Seq[String](
      "-sourcepath", bd.getAbsolutePath,
-     "-doc-source-url", "https://github.com/mslinn/has-id/tree/master€{FILE_PATH}.scala"
+     "-doc-source-url", "https://github.com/mslinn/{name.value}/tree/master€{FILE_PATH}.scala"
   )
 }.value
 
@@ -36,13 +36,13 @@ javacOptions ++= Seq(
   "-g:vars"
 )
 
-resolvers ++= Seq(
-)
+resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
 libraryDependencies ++= Seq(
-  //"com.github.nscala-time"  %% "nscala-time"   % "2.14.0" withSources(),
-  "org.scalatest"     %% "scalatest"   % "3.0.1" % "test" withSources(),
-  "junit"             %  "junit"       % "4.12"  % "test"
+  "com.micronautics"  %% "has-value" % "1.0.0" withSources(),
+  //
+  "org.scalatest"     %% "scalatest"  % "3.0.1" % "test" withSources(),
+  "junit"             %  "junit"      % "4.12"  % "test"
 )
 
 logLevel := Level.Warn
@@ -61,26 +61,3 @@ initialCommands in console := """
 cancelable := true
 
 sublimeTransitive := true
-
-// sbt-site settings
-enablePlugins(SiteScaladocPlugin)
-siteSourceDirectory := target.value / "api"
-publishSite
-
-// sbt-ghpages settings
-enablePlugins(GhpagesPlugin)
-git.remoteRepo := "git@github.com:mslinn/has-id.git"
-
-// bintray settings
-bintrayOrganization := Some("micronautics")
-bintrayRepository := "scala"
-bintrayVcsUrl := Some("git@github.com:mslinn/has-id.git")
-
-// sbt-site settings
-enablePlugins(SiteScaladocPlugin)
-siteSourceDirectory := target.value / "api"
-publishSite
-
-// sbt-ghpages settings
-enablePlugins(GhpagesPlugin)
-git.remoteRepo := "git@github.com:mslinn/has-id.git"

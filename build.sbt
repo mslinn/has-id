@@ -1,7 +1,7 @@
 organization := "com.micronautics"
 
 name := "has-id"
-version := "1.0.0"
+version := "1.0.1"
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 scalaVersion := "2.11.11"
 crossScalaVersions := Seq(scalaVersion.value, "2.12.2")
@@ -39,7 +39,7 @@ javacOptions ++= Seq(
 resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
 libraryDependencies ++= Seq(
-  "com.micronautics"  %% "has-value" % "1.0.0" withSources(),
+  "com.micronautics"  %% "has-value" % "1.0.1" withSources(),
   //
   "org.scalatest"     %% "scalatest"  % "3.0.1" % "test" withSources(),
   "junit"             %  "junit"      % "4.12"  % "test"

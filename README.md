@@ -10,7 +10,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.0.0" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.0.1" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/)

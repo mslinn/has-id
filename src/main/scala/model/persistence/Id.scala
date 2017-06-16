@@ -4,16 +4,16 @@ import java.util.UUID
 import com.micronautics.HasValue
 import scala.reflect.runtime.universe._
 
-protected sealed trait IdType[+T]
-
+protected sealed class IdType[+T]( val emptyValue: T )
 protected object IdType {
-  implicit object LongWitness extends IdType[Long]
+  def apply[T]( implicit idType: IdType[T] ): IdType[T] = idType
+  implicit object LongWitness extends IdType[Long]( 0L )
+  implicit object StringWitness extends IdType[String]( "" )
+  implicit object UUIDWitness extends IdType[UUID]( new UUID(0L, 0L) )
 
-  implicit object OptionLongWitness extends IdType[Option[Long]]
-
-  implicit object StringWitness extends IdType[String]
-
-  implicit object UUIDWitness extends IdType[UUID]
+  // delegates to other IdTypes
+  implicit def OptionWitness[T]( implicit contained: IdType[T] ): IdType[Option[T]]
+    = new IdType[Option[T]]( None )
 }
 
 /** To use, either import `IdImplicits._` or mix in IdImplicitLike */
@@ -53,12 +53,8 @@ object IdImplicits extends IdImplicitLike
 object Id extends IdImplicitLike {
   type IdMix = String with Long with Option[Long] with UUID
 
-  def empty[A: TypeTag] = "" match {
-    case _ if typeOf[A] <:< typeOf[String]       => Id("")
-    case _ if typeOf[A] <:< typeOf[Long]         => Id(0L)
-    case _ if typeOf[A] <:< typeOf[Option[Long]] => Id[Option[Long]](None)
-    case _ if typeOf[A] <:< typeOf[UUID]         => Id(new UUID(0L, 0L))
-  }
+  def isEmpty[T]( id: Id[T] )( implicit idType: IdType[T] ): Boolean = id.value == idType.emptyValue
+  def empty[T]( implicit idType: IdType[T] ): Id[T] = Id( idType.emptyValue )
 
   def isValid[T: IdType](value: T): Boolean = try {
     Id(value)
@@ -69,19 +65,10 @@ object Id extends IdImplicitLike {
 }
 
 case class Id[T: IdType](value: T) extends HasValue[T] {
-  def isEmpty[A: TypeTag]: Boolean = value match {
-    case _ if typeOf[A] <:< typeOf[String]       => value == Id.empty[String]
-    case _ if typeOf[A] <:< typeOf[Long]         => value == Id.empty[Long]
-    case _ if typeOf[A] <:< typeOf[Option[Long]] => value == Id.empty[Option[Long]]
-    case _ if typeOf[A] <:< typeOf[UUID]         => value == Id.empty[UUID]
-  }
-
   override def toString: String = value.toString
 }
 
-trait HasId extends IdImplicitLike {
+abstract class HasId[A: IdType] extends IdImplicitLike {
   import Id.IdMix
-
-//  def id[U: TypeTag]: Id[_ >: IdMix] = Id.empty[U]
-  def id[A: TypeTag] = Id.empty[A]
+  def id: Id[A] = Id( IdType[A].emptyValue )
 }

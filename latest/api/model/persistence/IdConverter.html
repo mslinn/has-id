@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>RichIntId - model.persistence.IdImplicitLike.RichIntId</title>
-          <meta name="description" content="RichIntId - model.persistence.IdImplicitLike.RichIntId" />
-          <meta name="keywords" content="RichIntId model.persistence.IdImplicitLike.RichIntId" />
+          <title>IdConverter - model.persistence.IdConverter</title>
+          <meta name="description" content="IdConverter - model.persistence.IdConverter" />
+          <meta name="keywords" content="IdConverter model.persistence.IdConverter" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../index.html';
-            var hash = 'model.persistence.IdImplicitLike$RichIntId';
+            var hash = 'model.persistence.IdConverter';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,14 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Class" src="../../lib/class_big.png" />
-        <p id="owner"><a href="../package.html" class="extype" name="model">model</a>.<a href="package.html" class="extype" name="model.persistence">persistence</a>.<a href="IdImplicitLike.html" class="extype" name="model.persistence.IdImplicitLike">IdImplicitLike</a></p>
-        <h1>RichIntId</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="IdImplicitLike.html" class="extype" name="model.persistence.IdImplicitLike">package IdImplicitLike</a>
+        <a href="IdConverter$.html" title="See companion object"><img alt="Class/Object" src="../../lib/class_to_object_big.png" /></a>
+        <p id="owner"><a href="../package.html" class="extype" name="model">model</a>.<a href="package.html" class="extype" name="model.persistence">persistence</a></p>
+        <h1><a href="IdConverter$.html" title="See companion object">IdConverter</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="IdConverter$.html" title="See companion object">object IdConverter</a>
+            | <a href="package.html" class="extype" name="model.persistence">package persistence</a>
           </div></span></h3><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -41,18 +43,21 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">implicit </span>
+        <span class="modifier">sealed </span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">RichIntId</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">IdConverter</span><span class="tparams">[<span name="From">From</span>, <span name="To">To</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/mslinn/{name.value}/tree/master/src/main/scala/model/persistence/Id.scala" target="_blank">Id.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="IdConverter$$LongString$.html" class="extype" name="model.persistence.IdConverter.LongString">LongString</a>, <a href="IdConverter$$LongUUID$.html" class="extype" name="model.persistence.IdConverter.LongUUID">LongUUID</a>, <a href="IdConverter$$StringLong$.html" class="extype" name="model.persistence.IdConverter.StringLong">StringLong</a>, <a href="IdConverter$$StringUUID$.html" class="extype" name="model.persistence.IdConverter.StringUUID">StringUUID</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -69,7 +74,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.persistence.IdImplicitLike.RichIntId"><span>RichIntId</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.persistence.IdConverter"><span>IdConverter</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -88,19 +93,19 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="model.persistence.IdImplicitLike.RichIntId#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(int:Int):IdImplicitLike.this.RichIntId"></a>
-      <a id="&lt;init&gt;:RichIntId"></a>
+              <ol><li name="model.persistence.IdConverter#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="&lt;init&gt;(convertValue:From=&gt;To)(implicitevidence$1:model.persistence.IdType[To]):model.persistence.IdConverter[From,To]"></a>
+      <a id="&lt;init&gt;:IdConverter[From,To]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RichIntId</span><span class="params">(<span name="int">int: <span class="extype" name="scala.Int">Int</span></span>)</span>
+        <span class="name">IdConverter</span><span class="params">(<span name="convertValue">convertValue: (<span class="extype" name="model.persistence.IdConverter.From">From</span>) ⇒ <span class="extype" name="model.persistence.IdConverter.To">To</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="IdType.html" class="extype" name="model.persistence.IdType">IdType</a>[<span class="extype" name="model.persistence.IdConverter.To">To</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@&lt;init&gt;(int:Int):IdImplicitLike.this.RichIntId" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@&lt;init&gt;(convertValue:From=&gt;To)(implicitevidence$1:model.persistence.IdType[To]):model.persistence.IdConverter[From,To]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -126,7 +131,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -143,7 +148,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@##():Int" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@##():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,7 +165,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -177,7 +182,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -194,7 +199,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@clone():Object" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@clone():Object" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -205,6 +210,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="model.persistence.IdConverter#convertValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="convertValue:From=&gt;To"></a>
+      <a id="convertValue:(From)⇒To"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">convertValue</span><span class="result">: (<span class="extype" name="model.persistence.IdConverter.From">From</span>) ⇒ <span class="extype" name="model.persistence.IdConverter.To">To</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.persistence.IdConverter@convertValue:From=&gt;To" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -217,7 +239,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -234,7 +256,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,7 +273,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@finalize():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -274,7 +296,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -291,7 +313,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@hashCode():Int" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -308,7 +330,7 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -325,7 +347,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -342,7 +364,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@notify():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@notify():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -359,7 +381,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -376,28 +398,11 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="model.persistence.IdImplicitLike.RichIntId#toId" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="toId[A](implicitevidence$4:reflect.runtime.universe.TypeTag[A]):model.persistence.Id[_&gt;:IdImplicitLike.this.IdMix]"></a>
-      <a id="toId[A](scala.reflect.api.JavaUniverse.TypeTag[A]):Id[_&gt;:IdMix]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toId</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.api.TypeTags.TypeTag">scala.reflect.api.JavaUniverse.TypeTag</span>[<span class="extype" name="model.persistence.IdImplicitLike.RichIntId.toId.A">A</span>]</span>)</span><span class="result">: <a href="Id.html" class="extype" name="model.persistence.Id">Id</a>[_ &gt;: <a href="IdImplicitLike.html#IdMix=StringwithLongwithjava.util.UUID" class="extmbr" name="model.persistence.IdImplicitLike.IdMix">IdMix</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@toId[A](implicitevidence$4:reflect.runtime.universe.TypeTag[A]):model.persistence.Id[_&gt;:IdImplicitLike.this.IdMix]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -410,7 +415,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@toString():String" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@toString():String" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -427,7 +432,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@wait():Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@wait():Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -450,7 +455,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -473,7 +478,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.IdImplicitLike$RichIntId@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.IdConverter@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

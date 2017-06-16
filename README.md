@@ -1,13 +1,14 @@
-# Scala Project Template
+# has-id
 
 [![Build Status](https://travis-ci.org/mslinn/has-id.svg?branch=master)](https://travis-ci.org/mslinn/has-id)
 [![GitHub version](https://badge.fury.io/gh/mslinn%2Fhas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
 
-This project provides a stub for `model.persistence.Id`; 
-both this project and [has-value](https://github.com/mslinn/has-value) are used by 
-[html-form-scala](https://github.com/mslinn/html-form-scala).
+Using raw types for database ids invites errors.
+Every Scala developer should always use the `Id` wrapper type provided by this project, because of the type safety it provides. 
 
-`Long`, `UUID` and `String` `Id` types are supported, any of which can be optional.
+`Id` can wrap `Long`, `UUID` and `String` values, and any of them can be optional.
+For example: `Id[Long]`, `Id[UUID]`, `Id[String]`, `Id[Option[Long]]`, `Id[Option[UUID]]`, and `Id[Option[String]]`.
+
 See the unit tests for examples and documentation.
 
 ## Installation

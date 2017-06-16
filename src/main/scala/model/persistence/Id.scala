@@ -57,6 +57,6 @@ case class Id[T: IdType](value: T) extends HasValue[T] {
   override def toString: String = value.toString
 }
 
-abstract class HasId[A: IdType] extends IdImplicitLike {
-  def id: Id[A] = Id( IdType[A].emptyValue )
+abstract trait HasId[A] extends IdImplicitLike {
+  def id: Id[A]
 }

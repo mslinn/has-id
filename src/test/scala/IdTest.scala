@@ -33,10 +33,10 @@ class IdTest extends WordSpec with MustMatchers {
       Id.empty[Long] mustBe Id(0L)
       Id.empty[Option[Long]] mustBe Id[Option[Long]](None)
 
-      case class BlahString(a: Int,     b: String) extends HasId[String]
-      case class BlahLong(a: Int,       b: String) extends HasId[Long]
-      case class BlahOptionLong(a: Int, b: String) extends HasId[Option[Long]]
-      case class BlahUuid(a: Int,       b: String) extends HasId[UUID]
+      case class BlahString(a: Int,     b: String, id: Id[String] = Id.empty ) extends HasId[String]
+      case class BlahLong(a: Int,       b: String, id: Id[Long] = Id.empty) extends HasId[Long]
+      case class BlahOptionLong(a: Int, b: String, id: Id[Option[Long]] = Id.empty) extends HasId[Option[Long]]
+      case class BlahUuid(a: Int,       b: String, id: Id[UUID] = Id.empty) extends HasId[UUID]
 
       val idLongZero = Id.empty[Long]
       idLongZero mustBe Id(0L)
@@ -49,6 +49,10 @@ class IdTest extends WordSpec with MustMatchers {
 
       val idUuidZero = Id.empty[UUID]
       idUuidZero mustBe Id(new UUID(0L, 0L))
+
+      BlahString( 5, "test" ).copy(
+        id = Id("some id")
+      )
     }
 
     "pass validity test" in {

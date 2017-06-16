@@ -20,11 +20,45 @@ class IdTest extends WordSpec with MustMatchers {
     }
 
     "compare to a value" in {
-      case class Blah(a: Int, b: String, id: Id[UUID]=Id(UUID.randomUUID))
+      case class Blah(a: Int, b: String, id: Id[UUID] = Id(UUID.randomUUID))
 
       val id = Id(UUID.randomUUID)
       val blah = Blah(1, "two", id)
       blah.id mustBe id
+    }
+
+    "support references" in {
+      /** A person can have at most one Dog. Because their Id is an Option[UUID], those Ids do not always have a value */
+      case class Person(
+         age: Int,
+         name: String,
+         dogId: Id[Option[Long]],
+         override val id: Option[Id[UUID]] = Some(Id(UUID.randomUUID))
+       ) extends HasId[Option[UUID]]
+
+      /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
+        * Because the Ids for Dog and FavoriteTree are not UUID, those Ids might be None until they are persisted */
+      case class Dog(
+        species: String,
+        color: String,
+        override val id: Id[Option[Long]] = Id.empty
+      ) extends HasId[Option[Long]]
+
+      /** Dogs can have many Bones. Because a Bone's Id is a UUID, they always have a value */
+      case class Bone(
+         weight: Double,
+         dogId: Id[Option[Long]],
+         override val id: Id[UUID] = Id(UUID.randomUUID)
+       ) extends HasId[UUID]
+
+      /** Many FavoriteTrees for each Dog. Trees can be 'unclaimed', represented by dogId==None */
+      case class FavoriteTree(
+        diameter: Int,
+        latitude: Double,
+        longitude: Double,
+        dogId: Id[Option[Long]],
+        override val id: Id[Option[Long]] = Id.empty
+      ) extends HasId[Option[Long]]
     }
 
     "compare to empty / zero" in {
@@ -32,11 +66,6 @@ class IdTest extends WordSpec with MustMatchers {
       Id.empty[String] mustBe Id("")
       Id.empty[Long] mustBe Id(0L)
       Id.empty[Option[Long]] mustBe Id[Option[Long]](None)
-
-      case class BlahString(a: Int,     b: String, id: Id[String] = Id.empty ) extends HasId[String]
-      case class BlahLong(a: Int,       b: String, id: Id[Long] = Id.empty) extends HasId[Long]
-      case class BlahOptionLong(a: Int, b: String, id: Id[Option[Long]] = Id.empty) extends HasId[Option[Long]]
-      case class BlahUuid(a: Int,       b: String, id: Id[UUID] = Id.empty) extends HasId[UUID]
 
       val idLongZero = Id.empty[Long]
       idLongZero mustBe Id(0L)

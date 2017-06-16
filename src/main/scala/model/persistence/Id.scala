@@ -2,9 +2,9 @@ package model.persistence
 
 import java.util.UUID
 import com.micronautics.HasValue
-import scala.reflect.runtime.universe._
 
 protected sealed class IdType[+T]( val emptyValue: T )
+
 protected object IdType {
   def apply[T]( implicit idType: IdType[T] ): IdType[T] = idType
   implicit object LongWitness extends IdType[Long]( 0L )
@@ -29,12 +29,12 @@ object IdConverter{
   implicit object StringLong extends IdConverter[ String, Long ]( _.toLong )
   implicit object StringUUID extends IdConverter[ String, UUID ]( UUID.fromString )
   implicit object LongString extends IdConverter[ Long, String ]( _.toString )
-  implicit object LongUUID extends IdConverter[ Long, UUID ]( long => UUID.fromString(long.toString) )
+  implicit object LongUUID   extends IdConverter[ Long, UUID ]( long => UUID.fromString(long.toString) )
 }
 
 /** To use, either import `IdImplicits._` or mix in IdImplicitLike */
 trait IdImplicitLike {
-  implicit class ToId[From]( from: From ){
+  implicit class ToId[From]( from: From ) {
     def toId[ To: IdType ]( implicit converter: IdConverter[From, To] ) = Id( converter.convertValue( from ) )
   }
 }

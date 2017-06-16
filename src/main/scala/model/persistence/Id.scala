@@ -53,10 +53,10 @@ object IdImplicits extends IdImplicitLike
 object Id extends IdImplicitLike {
   type IdMix = String with Long with Option[Long] with UUID
 
-  def empty[A: IdType]: Id[_ >: IdMix] = "" match {
+  def empty[A: TypeTag] = "" match {
     case _ if typeOf[A] <:< typeOf[String]       => Id("")
     case _ if typeOf[A] <:< typeOf[Long]         => Id(0L)
-    case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(None)
+    case _ if typeOf[A] <:< typeOf[Option[Long]] => Id[Option[Long]](None)
     case _ if typeOf[A] <:< typeOf[UUID]         => Id(new UUID(0L, 0L))
   }
 
@@ -83,5 +83,5 @@ trait HasId extends IdImplicitLike {
   import Id.IdMix
 
 //  def id[U: TypeTag]: Id[_ >: IdMix] = Id.empty[U]
-  def id[T >: IdMix]: Id[_] = Id.empty[T]
+  def id[A: TypeTag] = Id.empty[A]
 }

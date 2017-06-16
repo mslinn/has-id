@@ -1,6 +1,5 @@
 import java.util.UUID
 import model.persistence.{HasId, Id}
-import model.persistence.Id.IdMix
 import org.junit.runner.RunWith
 import org.scalatest.Matchers._
 import org.scalatest._
@@ -39,16 +38,16 @@ class IdTest extends WordSpec with MustMatchers {
       case class BlahOptionLong(a: Int, b: String) extends HasId[Option[Long]]
       case class BlahUuid(a: Int,       b: String) extends HasId[UUID]
 
-      val idLongZero: Id[_ >: IdMix] = Id.empty[Long]
+      val idLongZero = Id.empty[Long]
       idLongZero mustBe Id(0L)
 
-      val idOptionLongZero: Id[_ >: IdMix] = Id.empty[Option[Long]]
+      val idOptionLongZero = Id.empty[Option[Long]]
       idOptionLongZero mustBe Id[Option[Long]](None)
 
-      val idStringZero: Id[_ >: IdMix] = Id.empty[String]
+      val idStringZero = Id.empty[String]
       idStringZero mustBe Id("")
 
-      val idUuidZero: Id[_ >: IdMix] = Id.empty[UUID]
+      val idUuidZero = Id.empty[UUID]
       idUuidZero mustBe Id(new UUID(0L, 0L))
     }
 

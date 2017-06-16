@@ -4,26 +4,21 @@ import java.util.UUID
 import com.micronautics.HasValue
 import scala.reflect.runtime.universe._
 
-protected sealed trait IdType[T] {
-  def empty: Id[T]
-}
+protected sealed trait IdType[+T]
 
 protected object IdType {
-  implicit object LongWitness extends IdType[Long] {
-    val empty: Id[Long] = Id(0L)
-  }
+  implicit object LongWitness extends IdType[Long]
 
-  implicit object StringWitness extends IdType[String] {
-    val empty: Id[String] = Id("")
-  }
+  implicit object StringWitness extends IdType[String]
 
-  implicit object UUIDWitness extends IdType[UUID] {
-    val empty: Id[UUID] = Id(new UUID(0L, 0L))
-  }
+  implicit object UUIDWitness extends IdType[UUID]
 }
 
 trait HasId extends IdImplicitLike {
-  def id[T: IdType]: Id[_ >: IdMix] = Id.empty
+  import Id.IdMix
+
+//  def id[U: TypeTag]: Id[_ >: IdMix] = Id.empty[U]
+  def id[T >: IdMix]: Id[_] = Id.empty[T]
 }
 
 trait MaybeHasId[T] extends IdImplicitLike {
@@ -32,7 +27,7 @@ trait MaybeHasId[T] extends IdImplicitLike {
 
 /** To use, either import `IdImplicits._` or mix in IdImplicitLike */
 trait IdImplicitLike {
-  type IdMix = String with Long with UUID
+  import Id.IdMix
 
   implicit class RichStringId(string: String) {
     def toId[A: TypeTag]: Id[_ >: IdMix] = string match {
@@ -62,11 +57,13 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
-  def empty[A: TypeTag]: Id[_ >: IdMix] = "" match {
-    case _ if typeOf[A] <:< typeOf[String] => IdType.StringWitness.empty
-    case _ if typeOf[A] <:< typeOf[Long]   => IdType.LongWitness.empty
-    case _ if typeOf[A] <:< typeOf[UUID]   => IdType.UUIDWitness.empty
-  }
+  type IdMix = String with Long with UUID
+
+  def empty[A: IdType] = "" match {
+      case _ if typeOf[A] <:< typeOf[String] => Id("")
+      case _ if typeOf[A] <:< typeOf[Long]   => Id(0L)
+      case _ if typeOf[A] <:< typeOf[UUID]   => Id(new UUID(0L, 0L))
+    }
 
   def isValid[T: IdType](value: T): Boolean = try {
     Id(value)
@@ -77,5 +74,11 @@ object Id extends IdImplicitLike {
 }
 
 case class Id[T: IdType](value: T) extends HasValue[T] {
+  def isZero[A: TypeTag]: Boolean = value match {
+    case _ if typeOf[A] <:< typeOf[String] => value == Id.empty[String]
+    case _ if typeOf[A] <:< typeOf[Long]   => value == Id.empty[Long]
+    case _ if typeOf[A] <:< typeOf[UUID]   => value == Id.empty[UUID]
+  }
+
   override def toString: String = value.toString
 }

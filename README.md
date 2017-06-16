@@ -1,7 +1,7 @@
 # Scala Project Template
 
 [![Build Status](https://travis-ci.org/mslinn/has-id.svg?branch=master)](https://travis-ci.org/mslinn/has-id)
-[![GitHub version](https://badge.fury.io/gh/mslinn%2Fshas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
+[![GitHub version](https://badge.fury.io/gh/mslinn%2Fhas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
 
 This project provides a stub for `model.persistence.Id`; 
 both this project and [has-value](https://github.com/mslinn/has-value) are used by 

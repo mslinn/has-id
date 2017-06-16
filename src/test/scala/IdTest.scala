@@ -33,7 +33,7 @@ class IdTest extends WordSpec with MustMatchers {
          age: Int,
          name: String,
          dogId: Id[Option[Long]],
-         override val id: Option[Id[UUID]] = Some(Id(UUID.randomUUID))
+         override val id: Id[Option[UUID]] = Id(Some(UUID.randomUUID))
        ) extends HasId[Option[UUID]]
 
       /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.

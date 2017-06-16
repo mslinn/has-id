@@ -29,7 +29,7 @@ class IdTest extends WordSpec with MustMatchers {
     }
 
     "support references" in {
-      /* A person can have at most one Dog. Because their Id is an Option[UUID], those Ids do not always have a value */
+      /** A person can have at most one Dog. Because their Id is an Option[UUID], those Ids do not always have a value */
       case class Person(
          age: Int,
          name: String,
@@ -45,7 +45,7 @@ class IdTest extends WordSpec with MustMatchers {
         override val id: Id[Option[Long]] = Id.empty
       ) extends HasId[Option[Long]]
 
-      /* Dogs can have many Bones. Because a Bone's Id is a UUID, they always have a value */
+      /** Dogs can have many Bones. Because a Bone's Id is a UUID, they always have a value */
       case class Bone(
          weight: Double,
          dogId: Id[Option[Long]],

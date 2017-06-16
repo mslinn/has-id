@@ -78,10 +78,6 @@ class IdTest extends WordSpec with MustMatchers {
 
       val idUuidZero = Id.empty[UUID]
       idUuidZero mustBe Id(new UUID(0L, 0L))
-
-      BlahString( 5, "test" ).copy(
-        id = Id("some id")
-      )
     }
 
     "pass validity test" in {

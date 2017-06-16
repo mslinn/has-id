@@ -42,8 +42,6 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
-  type IdMix = String with Long with Option[Long] with UUID
-
   def isEmpty[T]( id: Id[T] )( implicit idType: IdType[T] ): Boolean = id.value == idType.emptyValue
   def empty[T]( implicit idType: IdType[T] ): Id[T] = Id( idType.emptyValue )
 
@@ -59,6 +57,6 @@ case class Id[T: IdType](value: T) extends HasValue[T] {
   override def toString: String = value.toString
 }
 
-abstract class HasId[A: IdType] extends IdImplicitLike {
-  def id: Id[A] = Id( IdType[A].emptyValue )
+abstract trait HasId[A] extends IdImplicitLike {
+  def id: Id[A]
 }

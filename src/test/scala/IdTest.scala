@@ -34,16 +34,16 @@ class IdTest extends WordSpec with MustMatchers {
       Id.empty[Long] mustBe Id(0L)
       Id.empty[Option[Long]] mustBe Id[Option[Long]](None)
 
-      case class BlahString(a: Int,     b: String, override val id: Id[String]       = Id.empty[String]) extends HasId
-      case class BlahLong(a: Int,       b: String, override val id: Id[Long]         = Id.empty) extends HasId
-      case class BlahOptionLong(a: Int, b: String, override val id: Id[Option[Long]] = Id.empty) extends HasId
-      case class BlahUuid(a: Int,       b: String, override val id: Id[UUID]         = Id.empty) extends HasId
+      case class BlahString(a: Int,     b: String) extends HasId[String]
+      case class BlahLong(a: Int,       b: String) extends HasId[Long]
+      case class BlahOptionLong(a: Int, b: String) extends HasId[Option[Long]]
+      case class BlahUuid(a: Int,       b: String) extends HasId[UUID]
 
       val idLongZero: Id[_ >: IdMix] = Id.empty[Long]
       idLongZero mustBe Id(0L)
 
       val idOptionLongZero: Id[_ >: IdMix] = Id.empty[Option[Long]]
-      idOptionLongZero mustBe Id(None)
+      idOptionLongZero mustBe Id[Option[Long]](None)
 
       val idStringZero: Id[_ >: IdMix] = Id.empty[String]
       idStringZero mustBe Id("")

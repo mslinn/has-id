@@ -4,47 +4,38 @@ import java.util.UUID
 import com.micronautics.HasValue
 import scala.reflect.runtime.universe._
 
-protected sealed trait IdType[+T]
-
+protected sealed class IdType[+T]( val emptyValue: T )
 protected object IdType {
-  implicit object LongWitness extends IdType[Long]
+  def apply[T]( implicit idType: IdType[T] ): IdType[T] = idType
+  implicit object LongWitness extends IdType[Long]( 0L )
+  implicit object StringWitness extends IdType[String]( "" )
+  implicit object UUIDWitness extends IdType[UUID]( new UUID(0L, 0L) )
 
-  implicit object OptionLongWitness extends IdType[Option[Long]]
+  // delegates to other IdTypes
+  implicit def OptionWitness[T]( implicit contained: IdType[T] ): IdType[Option[T]]
+    = new IdType[Option[T]]( None )
+}
 
-  implicit object StringWitness extends IdType[String]
+sealed class IdConverter[ From, To: IdType ]( val convertValue: From => To )
 
-  implicit object UUIDWitness extends IdType[UUID]
+object IdConverter{
+  implicit def id[T: IdType]: IdConverter[T, T] = new IdConverter[T, T]( identity )
+  implicit def option[From, To: IdType](
+    implicit valueConverter: IdConverter[From, To]
+  ): IdConverter[From, Option[To]] = new IdConverter[From, Option[To]](
+    value => Some( valueConverter.convertValue(value) )
+  )
+
+  implicit object StringLong extends IdConverter[ String, Long ]( _.toLong )
+  implicit object StringUUID extends IdConverter[ String, UUID ]( UUID.fromString )
+  implicit object LongString extends IdConverter[ Long, String ]( _.toString )
+  implicit object LongUUID extends IdConverter[ Long, UUID ]( long => UUID.fromString(long.toString) )
 }
 
 /** To use, either import `IdImplicits._` or mix in IdImplicitLike */
 trait IdImplicitLike {
-  import Id.IdMix
-
-  implicit class RichStringId(string: String) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = string match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(string)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(string.toLong)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(string.toLong))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(string))
-    }
-  }
-
-  implicit class RichLongId(long: Long) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = long match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(long.toString)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(long)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(long))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(long.toString))
-    }
-  }
-
-  implicit class RichIntId(int: Int) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = int match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(int.toString)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(int.toLong)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(int.toLong))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(int.toString))
-    }
+  implicit class ToId[From]( from: From ){
+    def toId[ To: IdType ]( implicit converter: IdConverter[From, To] ) = Id( converter.convertValue( from ) )
   }
 }
 
@@ -53,12 +44,8 @@ object IdImplicits extends IdImplicitLike
 object Id extends IdImplicitLike {
   type IdMix = String with Long with Option[Long] with UUID
 
-  def empty[A: TypeTag] = "" match {
-    case _ if typeOf[A] <:< typeOf[String]       => Id("")
-    case _ if typeOf[A] <:< typeOf[Long]         => Id(0L)
-    case _ if typeOf[A] <:< typeOf[Option[Long]] => Id[Option[Long]](None)
-    case _ if typeOf[A] <:< typeOf[UUID]         => Id(new UUID(0L, 0L))
-  }
+  def isEmpty[T]( id: Id[T] )( implicit idType: IdType[T] ): Boolean = id.value == idType.emptyValue
+  def empty[T]( implicit idType: IdType[T] ): Id[T] = Id( idType.emptyValue )
 
   def isValid[T: IdType](value: T): Boolean = try {
     Id(value)
@@ -69,19 +56,10 @@ object Id extends IdImplicitLike {
 }
 
 case class Id[T: IdType](value: T) extends HasValue[T] {
-  def isEmpty[A: TypeTag]: Boolean = value match {
-    case _ if typeOf[A] <:< typeOf[String]       => value == Id.empty[String]
-    case _ if typeOf[A] <:< typeOf[Long]         => value == Id.empty[Long]
-    case _ if typeOf[A] <:< typeOf[Option[Long]] => value == Id.empty[Option[Long]]
-    case _ if typeOf[A] <:< typeOf[UUID]         => value == Id.empty[UUID]
-  }
-
   override def toString: String = value.toString
 }
 
-trait HasId extends IdImplicitLike {
+abstract class HasId[A: IdType] extends IdImplicitLike {
   import Id.IdMix
-
-//  def id[U: TypeTag]: Id[_ >: IdMix] = Id.empty[U]
-  def id[A: TypeTag] = Id.empty[A]
+  def id: Id[A] = Id( IdType[A].emptyValue )
 }

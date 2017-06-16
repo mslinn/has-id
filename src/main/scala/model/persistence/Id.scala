@@ -42,6 +42,13 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
+  type IdLong   = Id[Long]
+  type IdString = Id[String]
+  type IdUuid   = Id[UUID]
+  type IdOptionLong   = Id[Option[Long]]
+  type IdOptionString = Id[Option[String]]
+  type IdOptionUuid   = Id[Option[UUID]]
+
   def isEmpty[T]( id: Id[T] )( implicit idType: IdType[T] ): Boolean = id.value == idType.emptyValue
   def empty[T]( implicit idType: IdType[T] ): Id[T] = Id( idType.emptyValue )
 

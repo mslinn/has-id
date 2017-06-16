@@ -16,35 +16,26 @@ protected object IdType {
     = new IdType[Option[T]]( None )
 }
 
+sealed class IdConverter[ From, To: IdType ]( val convertValue: From => To )
+
+object IdConverter{
+  implicit def id[T: IdType]: IdConverter[T, T] = new IdConverter[T, T]( identity )
+  implicit def option[From, To: IdType](
+    implicit valueConverter: IdConverter[From, To]
+  ): IdConverter[From, Option[To]] = new IdConverter[From, Option[To]](
+    value => Some( valueConverter.convertValue(value) )
+  )
+
+  implicit object StringLong extends IdConverter[ String, Long ]( _.toLong )
+  implicit object StringUUID extends IdConverter[ String, UUID ]( UUID.fromString )
+  implicit object LongString extends IdConverter[ Long, String ]( _.toString )
+  implicit object LongUUID extends IdConverter[ Long, UUID ]( long => UUID.fromString(long.toString) )
+}
+
 /** To use, either import `IdImplicits._` or mix in IdImplicitLike */
 trait IdImplicitLike {
-  import Id.IdMix
-
-  implicit class RichStringId(string: String) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = string match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(string)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(string.toLong)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(string.toLong))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(string))
-    }
-  }
-
-  implicit class RichLongId(long: Long) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = long match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(long.toString)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(long)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(long))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(long.toString))
-    }
-  }
-
-  implicit class RichIntId(int: Int) {
-    def toId[A: TypeTag]: Id[_ >: IdMix] = int match {
-      case _ if typeOf[A] <:< typeOf[String]       => Id(int.toString)
-      case _ if typeOf[A] <:< typeOf[Long]         => Id(int.toLong)
-      case _ if typeOf[A] <:< typeOf[Option[Long]] => Id(Some(int.toLong))
-      case _ if typeOf[A] <:< typeOf[UUID]         => Id(UUID.fromString(int.toString))
-    }
+  implicit class ToId[From]( from: From ){
+    def toId[ To: IdType ]( implicit converter: IdConverter[From, To] ) = Id( converter.convertValue( from ) )
   }
 }
 

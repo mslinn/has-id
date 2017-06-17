@@ -70,7 +70,7 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="model.persistence" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="model.persistence" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="persistence"></a>
       <a id="persistence:persistence"></a>
       <h4 class="signature">
@@ -86,7 +86,32 @@
         <img src="../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Using raw types such as <code>Long</code>, <code>java.util.UUID</code>, and <code>Option[Long]</code> for database ids invites errors.</p><div class="fullcomment"><div class="comment cmt"><p>Using raw types such as <code>Long</code>, <code>java.util.UUID</code>, and <code>Option[Long]</code> for database ids invites errors.
+Every Scala developer should instead use the <a href="persistence/Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="persistence/HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
+because of the type safety they provide over raw types.
+Both auto-increment <code>Id</code>s and <code>Id</code>s whose value is defined before persisting them are supported.</p><p><code>Id</code> can wrap <code>Long</code>, <code>UUID</code> and <code>String</code> values, and any of them can be optional.
+The supported flavors of <code>Id</code> are:</p><ul><li><code>Id[Long]</code> &emdash; maps to Postgres <code>BIGINT</code> or <code>BIGSERIAL</code></li><li><code>Id[UUID]</code></li><li><code>Id[String]</code></li><li><code>Id[Option[Long]]</code> &emdash; commonly used with autoincrement columns</li><li><code>Id[Option[UUID]]</code></li><li><code>Id[Option[String]]</code></li></ul><p><code>Id</code>s define a special value, called <code>empty</code>.
+Each <code>Id</code> flavor has a unique value for <code>empty</code>.
+FYI, the values for <code>empty</code> are:</p><ul><li><code>Id[UUID].empty == new UUID(0, 0)</code></li><li><code>Id[Long].empty == 0L</code></li><li><code>Id[String].empty == &quot;&quot;</code></li><li><code>Id[Option[UUID]].empty = None</code></li><li><code>Id[Option[Long]].empty = None</code></li><li><code>Id[Option[String]].empty = None</code></li></ul><p>Depending on the context, you might need to provide type ascription when using <code>Id.empty</code>.
+For example, <code>Id[UUID].empty</code> or <code>Id[Option[Long]].empty</code>.</p><p>Each case class that uses <code>Id</code> to represent the persisted record id in the database must extend <code>HasId</code>.
+The <code>HasId</code> type must match the type of the <code>Id</code> for the case class.
+For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code></li><li><code>HasId[String]</code></li><li><code>HasId[Option[Long]]</code></li><li><code>HasId[Option[UUID]]</code></li><li><code>HasId[Option[String]]</code></li></ul><p>Here are examples of using <code>Id</code> and <code>HasId</code>:</p><pre><span class="cmt">/** A person can have at most one Dog.
+  * Because their Id is based on Option[UUID], those Ids do not always have a value */</span>
+<span class="kw">case</span> <span class="kw">class</span> Person(
+   age: <span class="std">Int</span>,
+   name: <span class="std">String</span>,
+   dogId: Id[<span class="std">Option</span>[<span class="std">Long</span>]],
+   <span class="kw">override</span> <span class="kw">val</span> id: Id[UUID] = Id(UUID.randomUUID) <span class="cmt">// Id type (UUID) matches the HasId type (also UUID)</span>
+ ) <span class="kw">extends</span> HasId[UUID]
+
+<span class="cmt">/** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
+  * Because the Ids for Dog and FavoriteTree are based on Option[Long] and not UUID,
+  * those Ids might have value None until they are persisted */</span>
+<span class="kw">case</span> <span class="kw">class</span> Dog(
+  species: <span class="std">String</span>,
+  color: <span class="std">String</span>,
+  <span class="kw">override</span> <span class="kw">val</span> id: Id[<span class="std">Option</span>[<span class="std">Long</span>]] = Id.empty
+) <span class="kw">extends</span> HasId[<span class="std">Option</span>[<span class="std">Long</span>]]</pre></div></div>
     </li></ol>
             </div>
 

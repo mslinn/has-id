@@ -28,7 +28,7 @@ class IdTest extends WordSpec with MustMatchers {
     }
 
     "support references" in {
-      /** A person can have at most one Dog. Because their Id is an Option[UUID], those Ids do not always have a value */
+      /** A person can have at most one Dog. Because their Id is based on an Option[UUID], those Ids do not always have a value */
       case class Person(
          age: Int,
          name: String,
@@ -37,14 +37,14 @@ class IdTest extends WordSpec with MustMatchers {
        ) extends HasId[Option[UUID]]
 
       /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
-        * Because the Ids for Dog and FavoriteTree are not UUID, those Ids might be None until they are persisted */
+        * Because the Ids for Dog and FavoriteTree are based on Option[Long] not UUID, those Ids might have value None until they are persisted */
       case class Dog(
         species: String,
         color: String,
         override val id: Id[Option[Long]] = Id.empty
       ) extends HasId[Option[Long]]
 
-      /** Dogs can have many Bones. Because a Bone's Id is a UUID, they always have a value */
+      /** Dogs can have many Bones. Because a Bone's Id is based on a UUID, they always have a value */
       case class Bone(
          weight: Double,
          dogId: Id[Option[Long]],
@@ -99,6 +99,22 @@ class IdTest extends WordSpec with MustMatchers {
       Id.isEmpty(Id(""))
       Id.isEmpty(Id(0L))
       Id.isEmpty(Id[Option[Long]](None))
+    }
+
+    "generate toString property" in {
+      Id("hi").toString shouldBe "hi"
+      Id[Option[String]](Some("hi")).toString shouldBe "hi"
+
+      Id(123L).toString shouldBe "123"
+      Id[Option[Long]](Some(123L)).toString shouldBe "123"
+
+      Id[Option[Long]](None).toString shouldBe ""
+      Id[Option[String]](None).toString shouldBe ""
+      Id[Option[UUID]](None).toString shouldBe ""
+
+      val uuid = UUID.randomUUID
+      Id(uuid).toString shouldBe uuid.toString
+      Id[Option[UUID]](Some(uuid)).toString shouldBe uuid.toString
     }
   }
 }

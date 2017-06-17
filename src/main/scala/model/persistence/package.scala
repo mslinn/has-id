@@ -8,10 +8,10 @@ package model
   * `Id` can wrap `Long`, `UUID` and `String` values, and any of them can be optional.
   * The supported flavors of `Id` are:
   *
-  *   - `Id[Long]` &emdash; maps to Postgres `BIGINT` or `BIGSERIAL`
+  *   - `Id[Long]` - maps to Postgres `BIGINT` or `BIGSERIAL`
   *   - `Id[UUID]`
   *   - `Id[String]`
-  *   - `Id[Option[Long]]` &emdash; commonly used with autoincrement columns
+  *   - `Id[Option[Long]]` - commonly used with autoincrement columns
   *   - `Id[Option[UUID]]`
   *   - `Id[Option[String]]`
   *

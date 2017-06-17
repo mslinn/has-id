@@ -76,4 +76,4 @@ Add this to your project's `build.sbt`:
     libraryDependencies += "com.micronautics" %% "has-id" % "1.2.2" withSources()
 
 ## Scaladoc
-[Here](http://mslinn.github.io/has-id/latest/api/)
+[Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

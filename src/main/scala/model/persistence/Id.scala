@@ -1,7 +1,7 @@
 package model.persistence
 
-import java.util.UUID
 import com.micronautics.HasValue
+import java.util.UUID
 
 protected sealed class IdType[+T]( val emptyValue: T )
 
@@ -42,13 +42,6 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
-  type IdLong   = Id[Long]
-  type IdString = Id[String]
-  type IdUuid   = Id[UUID]
-  type IdOptionLong   = Id[Option[Long]]
-  type IdOptionString = Id[Option[String]]
-  type IdOptionUuid   = Id[Option[UUID]]
-
   def isEmpty[T]( id: Id[T] )( implicit idType: IdType[T] ): Boolean = id.value == idType.emptyValue
   def empty[T]( implicit idType: IdType[T] ): Id[T] = Id( idType.emptyValue )
 
@@ -61,7 +54,12 @@ object Id extends IdImplicitLike {
 }
 
 case class Id[T: IdType](value: T) extends HasValue[T] {
-  override def toString: String = value.toString
+  override def toString: String = value match {
+    case Some(x) => x.toString
+    //case None => "" // Scala compiler does not like this, so the following craziness is used:
+    case n if n == None => ""
+    case x => x.toString
+  }
 }
 
 trait HasId[A] extends IdImplicitLike {

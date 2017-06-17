@@ -77,3 +77,7 @@ Add this to your project's `build.sbt`:
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)
+
+## License
+
+This software is published under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).

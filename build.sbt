@@ -2,7 +2,7 @@ organization := "com.micronautics"
 
 name := "has-id"
 version := "1.2.2"
-licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+licenses +=  ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 scalaVersion := "2.11.11"
 crossScalaVersions := Seq(scalaVersion.value, "2.12.2")
 

@@ -4,7 +4,7 @@
 [![GitHub version](https://badge.fury.io/gh/mslinn%2Fhas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
 
 Using raw types such as `Long`, `UUID`, and `Option[Long]` for database ids invites errors.
-Every Scala developer should instead use the `Id` and `HasId` wrapper types provided by this project
+Scala developers should instead use the `Id` and `HasId` wrapper types provided by this project
 because of the type safety they provide over raw types.
 Both auto-increment `Id`s and `Id`s whose value is defined before persisting them are supported.
 

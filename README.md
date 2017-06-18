@@ -6,15 +6,16 @@
 Using raw types such as `Long`, `UUID`, and `Option[Long]` for database ids invites errors.
 Scala developers should instead use the `Id` and `HasId` wrapper types provided by this project
 because of the type safety they provide over raw types.
+`Id` and `HasId` are database-agnostic.
 Both auto-increment `Id`s and `Id`s whose value is defined before persisting them are supported.
 
 `Id` can wrap `Long`, `UUID` and `String` values, and any of them can be optional.
 The supported flavors of `Id` are: 
 
-  * `Id[Long]`
+  * `Id[Long]` &ndash; maps to Postgres `BIGINT` or `BIGSERIAL`
   * `Id[UUID]`
   * `Id[String]`
-  * `Id[Option[Long]]`
+  * `Id[Option[Long]]` &ndash; commonly used with autoincrement columns such as `BIGSERIAL`
   * `Id[Option[UUID]]`
   * `Id[Option[String]]`
 

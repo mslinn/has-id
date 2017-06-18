@@ -10,7 +10,7 @@ package model
   * The supported flavors of `Id` are:
   *
   *   - `Id[Long]` - maps to Postgres `BIGINT` or `BIGSERIAL`
-  *   - `Id[UUID]`
+  *   - `Id[UUID]` - [[https://tomharrisonjr.com/uuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439 do not misuse]]
   *   - `Id[String]`
   *   - `Id[Option[Long]]` - commonly used with autoincrement columns
   *   - `Id[Option[UUID]]`

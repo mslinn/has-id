@@ -16,9 +16,9 @@ protected object IdType {
     = new IdType[Option[T]]( None )
 }
 
-sealed class IdConverter[ From, To: IdType ]( val convertValue: From => To )
+protected sealed class IdConverter[ From, To: IdType ]( val convertValue: From => To )
 
-object IdConverter{
+protected object IdConverter{
   implicit def id[T: IdType]: IdConverter[T, T] = new IdConverter[T, T]( identity )
   implicit def option[From, To: IdType](
     implicit valueConverter: IdConverter[From, To]

@@ -13,7 +13,7 @@ Both auto-increment `Id`s and `Id`s whose value is defined before persisting the
 The supported flavors of `Id` are: 
 
   * `Id[Long]` &ndash; maps to Postgres `BIGINT` or `BIGSERIAL`
-  * `Id[UUID]`
+  * `Id[UUID]` &ndash; [do not misuse](https://tomharrisonjr.com/uuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439)
   * `Id[String]`
   * `Id[Option[Long]]` &ndash; commonly used with autoincrement columns such as `BIGSERIAL`
   * `Id[Option[UUID]]`

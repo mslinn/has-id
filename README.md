@@ -64,8 +64,10 @@ case class Dog(
 ) extends HasId[Option[Long]]
 ```
  
+## For More Information
 See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62) 
-for more examples and documentation.
+for more code examples and documentation.
+For an example of `has-id` in a real Scala project, see [play-authenticated](https://github.com/mslinn/play-authenticated/).
 
 ## Installation
 Both Scala 2.11 and Scala 2.12 are supported.

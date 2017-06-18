@@ -19,6 +19,9 @@ The supported flavors of `Id` are:
   * `Id[Option[UUID]]`
   * `Id[Option[String]]`
 
+`Id` is a Scala value object, which means there is little or no runtime cost for using it as compared to the value that it wraps.
+In other words, there is no penalty for boxing and unboxing.
+  
 `Id`s define a special value, called `empty`.
 Each `Id` flavor has a unique value for `empty`.
 FYI, the values for `empty` are:

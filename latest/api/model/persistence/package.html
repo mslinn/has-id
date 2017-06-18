@@ -48,7 +48,7 @@
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Using raw types such as <code>Long</code>, <code>java.util.UUID</code>, and <code>Option[Long]</code> for database ids invites errors.
-Every Scala developer should instead use the <a href="Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
+Scala developers should instead use the <a href="Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
 because of the type safety they provide over raw types.
 Both auto-increment <code>Id</code>s and <code>Id</code>s whose value is defined before persisting them are supported.</p><p><code>Id</code> can wrap <code>Long</code>, <code>UUID</code> and <code>String</code> values, and any of them can be optional.
 The supported flavors of <code>Id</code> are:</p><ul><li><code>Id[Long]</code> - maps to Postgres <code>BIGINT</code> or <code>BIGSERIAL</code></li><li><code>Id[UUID]</code></li><li><code>Id[String]</code></li><li><code>Id[Option[Long]]</code> - commonly used with autoincrement columns</li><li><code>Id[Option[UUID]]</code></li><li><code>Id[Option[String]]</code></li></ul><p><code>Id</code>s define a special value, called <code>empty</code>.
@@ -147,7 +147,7 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
       </a>
     </span>
       
-    </li><li name="model.persistence.IdConverter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="model.persistence.IdConverter" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="IdConverter[From,To]extendsAnyRef"></a>
       <a id="IdConverter[From,To]:IdConverter[From,To]"></a>
       <h4 class="signature">
@@ -163,7 +163,7 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="model.persistence.IdImplicitLike" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="IdImplicitLikeextendsAnyRef"></a>
       <a id="IdImplicitLike:IdImplicitLike"></a>
@@ -222,7 +222,7 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
       </a>
     </span>
       
-    </li><li name="model.persistence.IdConverter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="model.persistence.IdConverter" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="IdConverter"></a>
       <a id="IdConverter:IdConverter"></a>
       <h4 class="signature">
@@ -238,7 +238,7 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="model.persistence.IdImplicits" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="IdImplicits"></a>
       <a id="IdImplicits:IdImplicits"></a>

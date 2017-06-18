@@ -87,7 +87,7 @@
       </a>
     </span>
       <p class="shortcomment cmt">Using raw types such as <code>Long</code>, <code>java.util.UUID</code>, and <code>Option[Long]</code> for database ids invites errors.</p><div class="fullcomment"><div class="comment cmt"><p>Using raw types such as <code>Long</code>, <code>java.util.UUID</code>, and <code>Option[Long]</code> for database ids invites errors.
-Every Scala developer should instead use the <a href="persistence/Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="persistence/HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
+Scala developers should instead use the <a href="persistence/Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="persistence/HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
 because of the type safety they provide over raw types.
 Both auto-increment <code>Id</code>s and <code>Id</code>s whose value is defined before persisting them are supported.</p><p><code>Id</code> can wrap <code>Long</code>, <code>UUID</code> and <code>String</code> values, and any of them can be optional.
 The supported flavors of <code>Id</code> are:</p><ul><li><code>Id[Long]</code> - maps to Postgres <code>BIGINT</code> or <code>BIGSERIAL</code></li><li><code>Id[UUID]</code></li><li><code>Id[String]</code></li><li><code>Id[Option[Long]]</code> - commonly used with autoincrement columns</li><li><code>Id[Option[UUID]]</code></li><li><code>Id[Option[String]]</code></li></ul><p><code>Id</code>s define a special value, called <code>empty</code>.

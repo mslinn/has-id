@@ -78,6 +78,11 @@ Add this to your project's `build.sbt`:
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)
 
-## License
+## Sponsor
+This project is sponsored by [Micronautics Research Corporation](http://www.micronauticsresearch.com/),
+the company that delivers online Scala and Play training via [ScalaCourses.com](http://www.ScalaCourses.com).
+You can learn how this project works by taking the [Introduction to Scala](http://www.ScalaCourses.com/showCourse/40),
+and [Intermediate Scala](http://www.ScalaCourses.com/showCourse/45) courses.
 
+## License
 This software is published under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).

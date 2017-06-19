@@ -115,19 +115,37 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="model.persistence.HasId" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="HasId[A]extendsIdImplicitLike"></a>
-      <a id="HasId[A]:HasId[A]"></a>
+              <ol><li name="model.persistence.Copier" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="CopierextendsAnyRef"></a>
+      <a id="Copier:Copier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Copier.html"><span class="name">Copier</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.persistence.package@CopierextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Utility class for providing copying of a designated case class with minimal overhead.</p><div class="fullcomment"><div class="comment cmt"><p>Utility class for providing copying of a designated case class with minimal overhead.
+ONLY WORKS WITH TOP-LEVEL CASE CLASSES</p></div></div>
+    </li><li name="model.persistence.HasId" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasId[T,A]extendsIdImplicitLike"></a>
+      <a id="HasId[T,A]:HasId[T,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a href="HasId.html"><span class="name">HasId</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <a href="IdImplicitLike.html" class="extype" name="model.persistence.IdImplicitLike">IdImplicitLike</a></span>
+        <a href="HasId.html"><span class="name">HasId</span></a><span class="tparams">[<span name="T">T</span>, <span name="A">A</span>]</span><span class="result"> extends <a href="IdImplicitLike.html" class="extype" name="model.persistence.IdImplicitLike">IdImplicitLike</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.package@HasId[A]extendsIdImplicitLike" title="Permalink" target="_top">
+      <a href="../../index.html#model.persistence.package@HasId[T,A]extendsIdImplicitLike" title="Permalink" target="_top">
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -207,7 +225,24 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="model.persistence.Id" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="model.persistence.Copier" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Copier"></a>
+      <a id="Copier:Copier"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Copier$.html"><span class="name">Copier</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.persistence.package@Copier" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Modified from <a href="https://stackoverflow.com/a/23644859/553865" target="_blank">StackOverflow</a></p>
+    </li><li name="model.persistence.Id" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Id"></a>
       <a id="Id:Id"></a>
       <h4 class="signature">

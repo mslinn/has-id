@@ -1,13 +1,74 @@
 import java.util.UUID
-import model.persistence.{HasId, Id}
+import model.persistence.{Copier, HasId, Id}
 import org.junit.runner.RunWith
 import org.scalatest.Matchers._
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
-import scala.language.existentials
+
+// Top-level case classes for [[Copier]]
+case class X(a: String, id: Int)
+case class XOptionLong(a: String, id: Id[Option[Long]]) extends HasId[XOptionLong, Option[Long]]
+case class XLong(a: String, id: Id[Long]) extends HasId[XLong, Long]
+case class XUuid(a: String, id: Id[UUID]) extends HasId[XUuid, UUID]
+case class XOptionUuid(a: String, id: Id[Option[UUID]]) extends HasId[XOptionUuid, Option[UUID]]
 
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
+  "Copier" should {
+    "only works on top-level case classes" in {
+      val x = X("hi", 123)
+      val desired = x.copy(id=456)
+      Copier(x, ("id", 456)) shouldBe desired
+    }
+
+    "work for HasId[_, Option[Long]]" in {
+      val x = XOptionLong("hi", Id(Some(123L)))
+      val desired = XOptionLong("hi", Id(Some(456L)))
+
+      val actual0 = Copier(x, ("id", Id[Option[Long]](Some(456L))))
+      actual0 shouldBe desired
+
+      val actual = x.setId(Id(Some(456L)))
+      actual shouldBe desired
+    }
+
+    "work for HasId[_, Long]" in {
+      val x = XLong("hi", Id(123L))
+      val desired = XLong("hi", Id(456L))
+
+      val actual0 = Copier(x, ("id", Id(456L)))
+      actual0 shouldBe desired
+
+      val actual = x.setId(Id(456L))
+      actual shouldBe desired
+    }
+
+    val uid1 = UUID.randomUUID
+    val uid2 = UUID.randomUUID
+
+    "work for HasId[_, UUID]" in {
+      val x = XUuid("hi", Id(uid1))
+      val desired = XUuid("hi", Id(uid2))
+
+      val actual0 = Copier(x, ("id", Id(uid2)))
+      actual0 shouldBe desired
+
+      val actual = x.setId(Id(uid2))
+      actual shouldBe desired
+    }
+
+    "work for Id[_, Option[UUID]]" in {
+      val x = XOptionUuid("hi", Id(Some(uid1)))
+      val desired = XOptionUuid("hi", Id[Option[UUID]](Some(uid2)))
+
+      val actual0 = Copier(x, ("id", Id[Option[UUID]](Some(uid2))))
+      actual0 shouldBe desired
+
+      val actual = x.setId(Id(Some(uid2)))
+      actual shouldBe desired
+    }
+  }
+
   "Ids" should {
     "provide zero values" in {
       Id.empty[Long].value mustBe 0L
@@ -27,14 +88,17 @@ class IdTest extends WordSpec with MustMatchers {
       blah.id mustBe id
     }
 
+    /** The case classes below do not need to be top-level because `setId` is not called,
+      * which means that [[Copier]] is not used. */
     "support references" in {
-      /** A person can have at most one Dog. Because their Id is based on an Option[UUID], those Ids do not always have a value */
+      /** A person can have at most one Dog. Because their Id is based on an Option[UUID],
+        * those Ids do not always have a value */
       case class Person(
          age: Int,
          name: String,
          dogId: Id[Option[Long]],
          override val id: Id[Option[UUID]] = Id(Some(UUID.randomUUID))
-       ) extends HasId[Option[UUID]]
+       ) extends HasId[Person, Option[UUID]]
 
       /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
         * Because the Ids for Dog and FavoriteTree are based on Option[Long] not UUID, those Ids might have value None until they are persisted */
@@ -42,14 +106,14 @@ class IdTest extends WordSpec with MustMatchers {
         species: String,
         color: String,
         override val id: Id[Option[Long]] = Id.empty
-      ) extends HasId[Option[Long]]
+      ) extends HasId[Dog, Option[Long]]
 
       /** Dogs can have many Bones. Because a Bone's Id is based on a UUID, they always have a value */
       case class Bone(
          weight: Double,
          dogId: Id[Option[Long]],
          override val id: Id[UUID] = Id(UUID.randomUUID)
-       ) extends HasId[UUID]
+       ) extends HasId[Bone, UUID]
 
       /** Many FavoriteTrees for each Dog. Trees can be 'unclaimed', represented by dogId==None */
       case class FavoriteTree(
@@ -58,7 +122,7 @@ class IdTest extends WordSpec with MustMatchers {
         longitude: Double,
         dogId: Id[Option[Long]],
         override val id: Id[Option[Long]] = Id.empty
-      ) extends HasId[Option[Long]]
+      ) extends HasId[FavoriteTree, Option[Long]]
     }
 
     "compare to empty / zero" in {

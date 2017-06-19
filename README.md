@@ -37,14 +37,16 @@ Depending on the context, you might need to provide type ascription when using `
 For example, `Id[UUID].empty` or `Id[Option[Long]].empty`.
 
 Each case class that uses `Id` to represent the persisted record id in the database must extend `HasId`.
-The `HasId` type must match the type of the `Id` for the case class.
+`HasId` is a parametric type with two type parameters:
+  * The first type parameter must match the name of the case class
+  * The second type parameter must match the type of the `Id` for the case class.
 For example: 
-  * `HasId[Long]`
-  * `HasId[UUID]`
-  * `HasId[String]`
-  * `HasId[Option[Long]]`
-  * `HasId[Option[UUID]]`
-  * `HasId[Option[String]]`
+  * `HasId[MyCaseClass, Long]`
+  * `HasId[MyCaseClass, UUID]`
+  * `HasId[MyCaseClass, String]`
+  * `HasId[MyCaseClass, Option[Long]]`
+  * `HasId[MyCaseClass, Option[UUID]]`
+  * `HasId[MyCaseClass, Option[String]]`
 
 Here are examples of using `Id` and `HasId`:
  
@@ -56,7 +58,7 @@ case class Person(
    name: String,
    dogId: Id[Option[Long]],
    override val id: Id[UUID] = Id(UUID.randomUUID) // Id type (UUID) matches the HasId type (also UUID)
- ) extends HasId[UUID]
+ ) extends HasId[Person, UUID]
 
 /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
   * Because the Ids for Dog and FavoriteTree are based on Option[Long] and not UUID, 
@@ -65,7 +67,7 @@ case class Dog(
   species: String,
   color: String,
   override val id: Id[Option[Long]] = Id.empty
-) extends HasId[Option[Long]]
+) extends HasId[Dog, Option[Long]]
 ```
  
 ## For More Information
@@ -79,7 +81,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.2" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.3" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

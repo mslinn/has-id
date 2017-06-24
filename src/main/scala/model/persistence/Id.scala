@@ -67,7 +67,5 @@ case class Id[T: IdType](value: T) extends HasValue[T] {
 trait HasId[T, A] extends IdImplicitLike {
   def id: Id[A]
 
-  def isEmpty: Boolean = Id.isEmpty(id)
-
   def setId(newId: Id[A]): T = Copier.apply[T](this.asInstanceOf[T], "id" -> newId)
 }

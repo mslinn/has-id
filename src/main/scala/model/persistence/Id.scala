@@ -13,17 +13,18 @@ protected object IdType {
 
   // delegates to other IdTypes
   implicit def OptionWitness[T]( implicit contained: IdType[T] ): IdType[Option[T]]
-    = new IdType[Option[T]]( None )
+    = new IdType[Option[T]](None)
 }
 
 protected sealed class IdConverter[From, To: IdType](val convertValue: From => To)
 
 protected object IdConverter {
-  implicit def id[T: IdType]: IdConverter[T, T] = new IdConverter[T, T]( identity )
+  implicit def id[T: IdType]: IdConverter[T, T] = new IdConverter[T, T](identity)
+
   implicit def option[From, To: IdType](
     implicit valueConverter: IdConverter[From, To]
   ): IdConverter[From, Option[To]] = new IdConverter[From, Option[To]](
-    value => Some( valueConverter.convertValue(value) )
+    value => Some(valueConverter.convertValue(value))
   )
 
   implicit object StringLong extends IdConverter[String, Long](_.toLong)

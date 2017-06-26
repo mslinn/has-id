@@ -1,16 +1,17 @@
 import java.util.UUID
+import model.persistence.Types._
 import model.persistence.{Copier, HasId, Id}
 import org.junit.runner.RunWith
 import org.scalatest.Matchers._
 import org.scalatest._
 import org.scalatest.junit.JUnitRunner
 
-// Top-level case classes for [[Copier]]
+/** Top-level case classes for [[Copier]] */
 case class X(a: String, id: Int)
-case class XOptionLong(a: String, id: Id[Option[Long]]) extends HasId[XOptionLong, Option[Long]]
+case class XOptionLong(a: String, id: Id[OptionLong]) extends HasId[XOptionLong, Option[Long]]
 case class XLong(a: String, id: Id[Long]) extends HasId[XLong, Long]
 case class XUuid(a: String, id: Id[UUID]) extends HasId[XUuid, UUID]
-case class XOptionUuid(a: String, id: Id[Option[UUID]]) extends HasId[XOptionUuid, Option[UUID]]
+case class XOptionUuid(a: String, id: Id[OptionUuid]) extends HasId[XOptionUuid, OptionUuid]
 
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
@@ -21,11 +22,11 @@ class IdTest extends WordSpec with MustMatchers {
       Copier(x, ("id", 456)) shouldBe desired
     }
 
-    "work for HasId[_, Option[Long]]" in {
+    "work for HasId[_, OptionLong]" in {
       val x = XOptionLong("hi", Id(Some(123L)))
       val desired = XOptionLong("hi", Id(Some(456L)))
 
-      val actual0 = Copier(x, ("id", Id[Option[Long]](Some(456L))))
+      val actual0 = Copier(x, ("id", Id[OptionLong](Some(456L))))
       actual0 shouldBe desired
 
       val actual = x.setId(Id(Some(456L)))
@@ -59,9 +60,9 @@ class IdTest extends WordSpec with MustMatchers {
 
     "work for Id[_, Option[UUID]]" in {
       val x = XOptionUuid("hi", Id(Some(uid1)))
-      val desired = XOptionUuid("hi", Id[Option[UUID]](Some(uid2)))
+      val desired = XOptionUuid("hi", Id[OptionUuid](Some(uid2)))
 
-      val actual0 = Copier(x, ("id", Id[Option[UUID]](Some(uid2))))
+      val actual0 = Copier(x, ("id", Id[OptionUuid](Some(uid2))))
       actual0 shouldBe desired
 
       val actual = x.setId(Id(Some(uid2)))
@@ -72,7 +73,7 @@ class IdTest extends WordSpec with MustMatchers {
   "Ids" should {
     "provide zero values" in {
       Id.empty[Long].value mustBe 0L
-      Id.empty[Option[Long]].value mustBe None
+      Id.empty[OptionLong].value mustBe None
       Id.empty[String].value mustBe ""
 
       val desired: String = new UUID(0L, 0L).toString
@@ -97,21 +98,21 @@ class IdTest extends WordSpec with MustMatchers {
          age: Int,
          name: String,
          dogId: Id[Option[Long]],
-         override val id: Id[Option[UUID]] = Id(Some(UUID.randomUUID))
-       ) extends HasId[Person, Option[UUID]]
+         override val id: Id[OptionUuid] = Id(Some(UUID.randomUUID))
+       ) extends HasId[Person, OptionUuid]
 
       /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
         * Because the Ids for Dog and FavoriteTree are based on Option[Long] not UUID, those Ids might have value None until they are persisted */
       case class Dog(
         species: String,
         color: String,
-        override val id: Id[Option[Long]] = Id.empty
-      ) extends HasId[Dog, Option[Long]]
+        override val id: Id[OptionLong] = Id.empty
+      ) extends HasId[Dog, OptionLong]
 
       /** Dogs can have many Bones. Because a Bone's Id is based on a UUID, they always have a value */
       case class Bone(
          weight: Double,
-         dogId: Id[Option[Long]],
+         dogId: Id[OptionLong],
          override val id: Id[UUID] = Id(UUID.randomUUID)
        ) extends HasId[Bone, UUID]
 
@@ -121,21 +122,21 @@ class IdTest extends WordSpec with MustMatchers {
         latitude: Double,
         longitude: Double,
         dogId: Id[Option[Long]],
-        override val id: Id[Option[Long]] = Id.empty
-      ) extends HasId[FavoriteTree, Option[Long]]
+        override val id: Id[OptionLong] = Id.empty
+      ) extends HasId[FavoriteTree, OptionLong]
     }
 
     "compare to empty / zero" in {
       Id.empty[UUID] mustBe Id(new UUID(0L, 0L))
       Id.empty[String] mustBe Id("")
       Id.empty[Long] mustBe Id(0L)
-      Id.empty[Option[Long]] mustBe Id[Option[Long]](None)
+      Id.empty[Option[Long]] mustBe Id[OptionLong](None)
 
       val idLongZero = Id.empty[Long]
       idLongZero mustBe Id(0L)
 
-      val idOptionLongZero = Id.empty[Option[Long]]
-      idOptionLongZero mustBe Id[Option[Long]](None)
+      val idOptionLongZero = Id.empty[OptionLong]
+      idOptionLongZero mustBe Id[OptionLong](None)
 
       val idStringZero = Id.empty[String]
       idStringZero mustBe Id("")
@@ -148,21 +149,21 @@ class IdTest extends WordSpec with MustMatchers {
       Id.isValid[UUID](UUID.randomUUID)
       Id.isValid[String]("hello")
       Id.isValid[Long](42L)
-      Id.isValid[Option[Long]](Some(42L))
+      Id.isValid[OptionLong](Some(42L))
     }
 
     "pass empty / zero test 1" in {
       Id.isEmpty(Id.empty[UUID])
       Id.isEmpty(Id.empty[String])
       Id.isEmpty(Id.empty[Long])
-      Id.isEmpty(Id.empty[Option[Long]])
+      Id.isEmpty(Id.empty[OptionLong])
     }
 
     "pass empty / zero test 2" in {
       Id.isEmpty(Id(new UUID(0L, 0L)))
       Id.isEmpty(Id(""))
       Id.isEmpty(Id(0L))
-      Id.isEmpty(Id[Option[Long]](None))
+      Id.isEmpty(Id[OptionLong](None))
     }
 
     "generate toString property" in {
@@ -172,13 +173,13 @@ class IdTest extends WordSpec with MustMatchers {
       Id(123L).toString shouldBe "123"
       Id[Option[Long]](Some(123L)).toString shouldBe "123"
 
-      Id[Option[Long]](None).toString shouldBe ""
-      Id[Option[String]](None).toString shouldBe ""
-      Id[Option[UUID]](None).toString shouldBe ""
+      Id[OptionLong](None).toString shouldBe ""
+      Id[OptionString](None).toString shouldBe ""
+      Id[OptionUuid](None).toString shouldBe ""
 
       val uuid = UUID.randomUUID
       Id(uuid).toString shouldBe uuid.toString
-      Id[Option[UUID]](Some(uuid)).toString shouldBe uuid.toString
+      Id[OptionUuid](Some(uuid)).toString shouldBe uuid.toString
     }
   }
 }

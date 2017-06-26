@@ -49,9 +49,15 @@ For example:
   * `HasId[MyCaseClass, Option[String]]`
 
 For convenience, the following types are defined in `model.persistence.Types`:
-  * `OptionLong`   &ndash; `Option[Long]`
-  * `OptionString` &ndash; `Option[String]`
-  * `OptionUuid`   &ndash; `Option[UUID]`
+  * `OptionLong`     &ndash; `Option[Long]`
+  * `OptionString`   &ndash; `Option[String]`
+  * `OptionUuid`     &ndash; `Option[UUID]`
+  * `IdLong`         &ndash; `Id[Long]`
+  * `IdString`       &ndash; `Id[String]`
+  * `IdUuid`         &ndash; `Id[UUID]`
+  * `IdOptionLong`   &ndash; `Id[Option[Long]`
+  * `IdOptionString` &ndash; `Id[Option[String]]`
+  * `IdOptionUuid`   &ndash; `Id[Option[UUID]]`
 
 Here are examples of using `Id` and `HasId`:
  
@@ -61,8 +67,8 @@ Here are examples of using `Id` and `HasId`:
 case class Person(
    age: Int,
    name: String,
-   dogId: Id[OptionLong],
-   override val id: Id[UUID] = Id(UUID.randomUUID) // Id type (UUID) matches the HasId type (also UUID)
+   dogId: IdOptionLong,
+   override val id: IdUuid = Id(UUID.randomUUID) // Id type (UUID) matches the HasId type (also UUID)
  ) extends HasId[Person, UUID]
 
 /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
@@ -71,7 +77,7 @@ case class Person(
 case class Dog(
   species: String,
   color: String,
-  override val id: Id[OptionLong] = Id.empty
+  override val id: IdOptionLong = Id.empty
 ) extends HasId[Dog, OptionLong]
 ```
  
@@ -86,7 +92,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.4" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.5" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

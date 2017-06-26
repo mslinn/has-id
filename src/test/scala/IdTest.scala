@@ -8,10 +8,10 @@ import org.scalatest.junit.JUnitRunner
 
 /** Top-level case classes for [[Copier]] */
 case class X(a: String, id: Int)
-case class XOptionLong(a: String, id: Id[OptionLong]) extends HasId[XOptionLong, Option[Long]]
-case class XLong(a: String, id: Id[Long]) extends HasId[XLong, Long]
-case class XUuid(a: String, id: Id[UUID]) extends HasId[XUuid, UUID]
-case class XOptionUuid(a: String, id: Id[OptionUuid]) extends HasId[XOptionUuid, OptionUuid]
+case class XOptionLong(a: String, id: IdOptionLong) extends HasId[XOptionLong, OptionLong]
+case class XLong(a: String, id: IdLong) extends HasId[XLong, Long]
+case class XUuid(a: String, id: IdUuid) extends HasId[XUuid, UUID]
+case class XOptionUuid(a: String, id: IdOptionUuid) extends HasId[XOptionUuid, OptionUuid]
 
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
@@ -58,7 +58,7 @@ class IdTest extends WordSpec with MustMatchers {
       actual shouldBe desired
     }
 
-    "work for Id[_, Option[UUID]]" in {
+    "work for Id[_, OptionUuid]" in {
       val x = XOptionUuid("hi", Id(Some(uid1)))
       val desired = XOptionUuid("hi", Id[OptionUuid](Some(uid2)))
 
@@ -98,7 +98,7 @@ class IdTest extends WordSpec with MustMatchers {
          age: Int,
          name: String,
          dogId: Id[Option[Long]],
-         override val id: Id[OptionUuid] = Id(Some(UUID.randomUUID))
+         override val id: IdOptionUuid = Id(Some(UUID.randomUUID))
        ) extends HasId[Person, OptionUuid]
 
       /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
@@ -106,14 +106,14 @@ class IdTest extends WordSpec with MustMatchers {
       case class Dog(
         species: String,
         color: String,
-        override val id: Id[OptionLong] = Id.empty
+        override val id: IdOptionLong = Id.empty
       ) extends HasId[Dog, OptionLong]
 
       /** Dogs can have many Bones. Because a Bone's Id is based on a UUID, they always have a value */
       case class Bone(
          weight: Double,
-         dogId: Id[OptionLong],
-         override val id: Id[UUID] = Id(UUID.randomUUID)
+         dogId: IdOptionLong,
+         override val id: IdUuid = Id(UUID.randomUUID)
        ) extends HasId[Bone, UUID]
 
       /** Many FavoriteTrees for each Dog. Trees can be 'unclaimed', represented by dogId==None */
@@ -121,8 +121,8 @@ class IdTest extends WordSpec with MustMatchers {
         diameter: Int,
         latitude: Double,
         longitude: Double,
-        dogId: Id[Option[Long]],
-        override val id: Id[OptionLong] = Id.empty
+        dogId: IdOptionLong,
+        override val id: IdOptionLong = Id.empty
       ) extends HasId[FavoriteTree, OptionLong]
     }
 
@@ -130,7 +130,7 @@ class IdTest extends WordSpec with MustMatchers {
       Id.empty[UUID] mustBe Id(new UUID(0L, 0L))
       Id.empty[String] mustBe Id("")
       Id.empty[Long] mustBe Id(0L)
-      Id.empty[Option[Long]] mustBe Id[OptionLong](None)
+      Id.empty[OptionLong] mustBe Id[OptionLong](None)
 
       val idLongZero = Id.empty[Long]
       idLongZero mustBe Id(0L)
@@ -168,10 +168,10 @@ class IdTest extends WordSpec with MustMatchers {
 
     "generate toString property" in {
       Id("hi").toString shouldBe "hi"
-      Id[Option[String]](Some("hi")).toString shouldBe "hi"
+      Id[OptionString](Some("hi")).toString shouldBe "hi"
 
       Id(123L).toString shouldBe "123"
-      Id[Option[Long]](Some(123L)).toString shouldBe "123"
+      Id[OptionLong](Some(123L)).toString shouldBe "123"
 
       Id[OptionLong](None).toString shouldBe ""
       Id[OptionString](None).toString shouldBe ""

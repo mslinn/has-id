@@ -181,5 +181,37 @@ class IdTest extends WordSpec with MustMatchers {
       Id(uuid).toString shouldBe uuid.toString
       Id[OptionUuid](Some(uuid)).toString shouldBe uuid.toString
     }
+
+    "convert to Option" in {
+      val longValue = 1L
+      val uuidValue = UUID.randomUUID
+
+      val idLongEmpty       = Id.empty[Long]
+      val idLongSome        = Id(longValue)
+      val idOptionLongEmpty = Id.empty[OptionLong]
+      val idOptionLongSome  = Id(Option(longValue))
+      val idUuidEmpty       = Id.empty[UUID]
+      val idUuidSome        = Id(uuidValue)
+      val idOptionUuidEmpty = Id.empty[OptionUuid]
+      val idOptionUuidSome  = Id(Option(uuidValue))
+
+      idLongEmpty.toOption       shouldBe idOptionLongEmpty
+      idLongSome.toOption        shouldBe idOptionLongSome
+      idOptionLongEmpty.toOption shouldBe idOptionLongEmpty
+      idOptionLongSome.toOption  shouldBe idOptionLongSome
+      idUuidEmpty.toOption       shouldBe idOptionUuidEmpty
+      idUuidSome.toOption        shouldBe idOptionUuidSome
+      idOptionUuidEmpty.toOption shouldBe idOptionUuidEmpty
+      idOptionUuidSome.toOption  shouldBe idOptionUuidSome
+
+      /*idLongEmpty.fromOption.asInstanceOf[IdLong]       shouldBe idLongEmpty
+      idLongSome.fromOption.asInstanceOf[IdLong]        shouldBe idLongSome
+      idOptionLongEmpty.fromOption.asInstanceOf[IdLong] shouldBe idLongEmpty
+      idOptionLongSome.fromOption.asInstanceOf[IdLong]  shouldBe idLongSome
+      idUuidEmpty.fromOption.asInstanceOf[IdUuid]       shouldBe idUuidEmpty
+      idUuidSome.fromOption.asInstanceOf[IdUuid]        shouldBe idUuidSome
+      idOptionUuidEmpty.fromOption.asInstanceOf[IdUuid] shouldBe idUuidEmpty
+      idOptionUuidSome.fromOption.asInstanceOf[IdUuid]  shouldBe idUuidSome*/
+    }
   }
 }

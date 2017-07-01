@@ -6,10 +6,13 @@ import java.util.UUID
 protected sealed class IdType[+T](val emptyValue: T)
 
 protected object IdType {
+  val emptyLong = 0L
+  val emptyUuid = new UUID(0L, 0L)
+
   def apply[T](implicit idType: IdType[T]): IdType[T] = idType
-  implicit object LongWitness   extends IdType[Long](0L)
+  implicit object LongWitness   extends IdType[Long](emptyLong)
   implicit object StringWitness extends IdType[String]("")
-  implicit object UUIDWitness   extends IdType[UUID](new UUID(0L, 0L))
+  implicit object UUIDWitness   extends IdType[UUID](emptyUuid)
 
   // delegates to other IdTypes
   implicit def OptionWitness[T]( implicit contained: IdType[T] ): IdType[Option[T]]
@@ -43,8 +46,9 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
-  def isEmpty[T](id: Id[T])(implicit idType: IdType[T]): Boolean = id.value == idType.emptyValue
   def empty[T](implicit idType: IdType[T]): Id[T] = Id(idType.emptyValue)
+
+  def isEmpty[T](id: Id[T])(implicit idType: IdType[T]): Boolean = id.value == idType.emptyValue
 
   def isValid[T: IdType](value: T): Boolean = try {
     Id(value)
@@ -55,6 +59,35 @@ object Id extends IdImplicitLike {
 }
 
 case class Id[T: IdType](value: T) extends HasValue[T] {
+  /*def fromOption: Id[_ >: UUID with Long with T] = this.value match {
+    case v: Option[_] if v==None =>
+      this match {
+        case id: [T =:= Id[Long]] => Id(IdType.emptyLong)
+        /*case id
+        else if (v.contains(IdType.emptyUuid)) Id(IdType.emptyUuid)
+          else this*/
+      }
+
+    case v: Option[UUID] if v==None =>
+      Id(IdType.emptyUuid)
+
+    case v: Option[UUID] if v.isInstanceOf[Some[_]] =>
+      if (v.contains(IdType.emptyUuid)) Id.empty[UUID] else Id(v.get)
+
+    case _ => this
+  }*/
+
+  def toOption: Id[_ >: T with Option[T]] = this.value match {
+    case v if v.isInstanceOf[Option[_]] =>
+      this
+
+    case v if v.isInstanceOf[UUID] =>
+      if (v==IdType.emptyUuid) Id.empty[Option[T]] else Id(Option(v))
+
+    case v if v.isInstanceOf[Long] =>
+      if (v==IdType.emptyLong) Id.empty[Option[T]] else Id(Option(v))
+  }
+
   override def toString: String = value match {
     case Some(x) => x.toString
 

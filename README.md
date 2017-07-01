@@ -9,6 +9,7 @@ because of the type safety they provide over raw types.
 `Id` and `HasId` are database-agnostic.
 Both auto-increment `Id`s and `Id`s whose value is defined before persisting them are supported.
 
+## Id
 `Id` can wrap `Long`, `UUID` and `String` values, and any of them can be optional.
 The supported flavors of `Id` are: 
 
@@ -21,7 +22,8 @@ The supported flavors of `Id` are:
 
 `Id` is a Scala value object, which means there is little or no runtime cost for using it as compared to the value that it wraps.
 In other words, there is no penalty for boxing and unboxing.
-  
+
+### Id.empty
 `Id`s define a special value, called `empty`.
 Each `Id` flavor has a unique value for `empty`.
 FYI, the values for `empty` are:
@@ -36,6 +38,28 @@ FYI, the values for `empty` are:
 Depending on the context, you might need to provide type ascription when using `Id.empty`.
 For example, `Id[UUID].empty` or `Id[Option[Long]].empty`.
 
+### Id.toOption
+You can use the `Id.toOption` method to convert from an `Id[Long]` or `Id[UUID]` to `Id[Option[Long]]` or `Id[Option[UUID]]`.
+```
+scala> import model.persistence._
+import model.persistence._
+
+scala> Id(Option(123L)).toOption
+res2: model.persistence.Id[_ >: Option[Long] with Option[Option[Long]]] = 123
+```
+Be sure to cast the result to the desired `Id` subtype, otherwise you'll get a weird unhelpful type:
+```
+scala> Id(Option(123L)).toOption.asInstanceOf[Id[Long]]
+res3: model.persistence.Id[Long] = 123
+
+scala> import java.util.UUID
+import java.util.UUID
+
+scala> Id(Option(UUID.randomUUID)).toOption.asInstanceOf[Id[UUID]]
+res3: model.persistence.Id[java.util.UUID] = b4570530-14d0-47d6-9d8b-af3b58ed075a
+```
+
+## HasId
 Each case class that uses `Id` to represent the persisted record id in the database must extend `HasId`.
 `HasId` is a parametric type with two type parameters:
   * The first type parameter must match the name of the case class
@@ -48,17 +72,19 @@ For example:
   * `HasId[MyCaseClass, Option[UUID]]`
   * `HasId[MyCaseClass, Option[String]]`
 
-For convenience, the following types are defined in `model.persistence.Types`:
-  * `OptionLong`     &ndash; `Option[Long]`
-  * `OptionString`   &ndash; `Option[String]`
-  * `OptionUuid`     &ndash; `Option[UUID]`
-  * `IdLong`         &ndash; `Id[Long]`
-  * `IdString`       &ndash; `Id[String]`
-  * `IdUuid`         &ndash; `Id[UUID]`
-  * `IdOptionLong`   &ndash; `Id[Option[Long]`
-  * `IdOptionString` &ndash; `Id[Option[String]]`
-  * `IdOptionUuid`   &ndash; `Id[Option[UUID]]`
+## Convenience Types
+   For convenience, the following types are defined in `model.persistence.Types`:
+     * `OptionLong`     &ndash; `Option[Long]`
+     * `OptionString`   &ndash; `Option[String]`
+     * `OptionUuid`     &ndash; `Option[UUID]`
+     * `IdLong`         &ndash; `Id[Long]`
+     * `IdString`       &ndash; `Id[String]`
+     * `IdUuid`         &ndash; `Id[UUID]`
+     * `IdOptionLong`   &ndash; `Id[Option[Long]`
+     * `IdOptionString` &ndash; `Id[Option[String]]`
+     * `IdOptionUuid`   &ndash; `Id[Option[UUID]]`
 
+## Usage Examples
 Here are examples of using `Id` and `HasId`:
  
 ```
@@ -80,7 +106,7 @@ case class Dog(
   override val id: IdOptionLong = Id.empty
 ) extends HasId[Dog, OptionLong]
 ```
- 
+
 ## For More Information
 See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62) 
 for more code examples and documentation.
@@ -92,7 +118,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.5" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.6" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

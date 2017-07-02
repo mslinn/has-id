@@ -47,13 +47,13 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Id</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="model.persistence.Id.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="evidence$6">evidence$6: <a href="IdType.html" class="extype" name="model.persistence.IdType">IdType</a>[<span class="extype" name="model.persistence.Id.T">T</span>]</span>)</span><span class="result"> extends <span class="extype" name="com.micronautics.HasValue">HasValue</span>[<span class="extype" name="model.persistence.Id.T">T</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Id</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="model.persistence.Id.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="evidence$6">evidence$6: <a href="IdType.html" class="extype" name="model.persistence.IdType">IdType</a>[<span class="extype" name="model.persistence.Id.T">T</span>]</span>)</span><span class="result"> extends <span class="extype" name="com.micronautics.HasValue">HasValue</span>[<span class="extype" name="model.persistence.Id.T">T</span>] with <span class="extype" name="ai.x.safe.SafeString">SafeString</span> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="https://github.com/mslinn/{name.value}/tree/master/src/main/scala/model/persistence/Id.scala" target="_blank">Id.scala</a></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="com.micronautics.HasValue">HasValue</span>[<span class="extype" name="model.persistence.Id.T">T</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="ai.x.safe.SafeString">SafeString</span>, <span class="extype" name="com.micronautics.HasValue">HasValue</span>[<span class="extype" name="model.persistence.Id.T">T</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -71,7 +71,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="model.persistence.Id"><span>Id</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="com.micronautics.HasValue"><span>HasValue</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="model.persistence.Id"><span>Id</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="ai.x.safe.SafeString"><span>SafeString</span></li><li class="in" name="com.micronautics.HasValue"><span>HasValue</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -332,6 +332,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="model.persistence.Id#safeToString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="safeToString:String"></a>
+      <a id="safeToString:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">safeToString</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../index.html#model.persistence.Id@safeToString:String" title="Permalink" target="_top">
+        <img src="../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="model.persistence.Id">Id</a> → SafeString</dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -349,23 +366,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="model.persistence.Id#toOption" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="toOption:model.persistence.Id[_&gt;:TwithOption[T]]"></a>
-      <a id="toOption:Id[_&gt;:TwithOption[T]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toOption</span><span class="result">: <a href="" class="extype" name="model.persistence.Id">Id</a>[_ &gt;: <span class="extype" name="model.persistence.Id.T">T</span> with <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="model.persistence.Id.T">T</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../index.html#model.persistence.Id@toOption:model.persistence.Id[_&gt;:TwithOption[T]]" title="Permalink" target="_top">
-        <img src="../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="model.persistence.Id#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -486,6 +486,8 @@
               <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
             </div><div class="parent" name="scala.Equals">
               <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="ai.x.safe.SafeString">
+              <h3>Inherited from <span class="extype" name="ai.x.safe.SafeString">SafeString</span></h3>
             </div><div class="parent" name="com.micronautics.HasValue">
               <h3>Inherited from <span class="extype" name="com.micronautics.HasValue">HasValue</span>[<span class="extype" name="model.persistence.Id.T">T</span>]</h3>
             </div><div class="parent" name="scala.AnyRef">

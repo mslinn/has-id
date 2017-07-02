@@ -64,6 +64,17 @@ package model
   *   color: String,
   *   override val id: Id[Option[Long]] = Id.empty
   * ) extends HasId[Option[Long]]
-  * }}} */
+  * }}}
+  *
+  * <h2>Type Safety</h2>
+  * This project incorporates the [[https://github.com/xdotai/safe Safe project]], which supports typesafe comparisons:
+  *   - `===`, a replacement for Scala's `==` operator.
+  *   - `safeContains`, a replacement for Scala's 'contains' method implementations.
+  *   - `~`, a replacement for Scala's `+` operator implementations.
+  *   - `safeMkString`, a replacement for Scala's `mkString` method implementations.
+  *   - Scala's string interpolation can be made typesafe by using the `safe""` prefix, instead of `s""`.
+  *
+  * To enjoy these benefits, use the following import:
+  * {{{ import ai.x.safe._ }}} */
 
 package object persistence

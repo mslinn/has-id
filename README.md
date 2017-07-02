@@ -80,7 +80,19 @@ case class Dog(
   override val id: IdOptionLong = Id.empty
 ) extends HasId[Dog, OptionLong]
 ```
+
+## Type Safety
+This project incorporates the [Safe project](https://github.com/xdotai/safe), which supports typesafe comparisons:
+ * `===`, a replacement for Scala's `==` operator.
+ * `safeContains` a replacement for Scala's 'contains' method implementations.
+ * `~`, a replacement for Scala's `+` operator implementations.
+ * `safeMkString`, a replacement for Scala's `mkString` method implementations.
+ * Scala's string interpolation can be made typesafe by using the `safe""` prefix, instead of `s""`.
  
+To enjoy these benefits, use the following import:
+
+    import ai.x.safe._
+
 ## For More Information
 See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62) 
 for more code examples and documentation.
@@ -92,7 +104,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.5" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.7" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

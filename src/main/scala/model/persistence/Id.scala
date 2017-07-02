@@ -2,6 +2,7 @@ package model.persistence
 
 import com.micronautics.HasValue
 import java.util.UUID
+import ai.x.safe.{SafeString, SafeToString}
 
 protected sealed class IdType[+T](val emptyValue: T)
 
@@ -43,6 +44,30 @@ trait IdImplicitLike {
 object IdImplicits extends IdImplicitLike
 
 object Id extends IdImplicitLike {
+  implicit val IdStringSafeToString: SafeToString[Id[String]] = new SafeToString[Id[String]]{
+    @inline def safeToString(id: Id[String]): String = id.toString
+  }
+
+  implicit val IdLongSafeToString: SafeToString[Id[Long]] = new SafeToString[Id[Long]]{
+    @inline def safeToString(id: Id[Long]): String = id.toString
+  }
+
+  implicit val IdUuidSafeToString: SafeToString[Id[UUID]] = new SafeToString[Id[UUID]]{
+    @inline def safeToString(id: Id[UUID]): String = id.toString
+  }
+
+  implicit val IdOptionStringSafeToString: SafeToString[Id[Option[String]]] = new SafeToString[Id[Option[String]]]{
+    @inline def safeToString(id: Id[Option[String]]): String = id.toString
+  }
+
+  implicit val IdOptionLongSafeToString: SafeToString[Id[Option[Long]]] = new SafeToString[Id[Option[Long]]]{
+    @inline def safeToString(id: Id[Option[Long]]): String = id.toString
+  }
+
+  implicit val IdOptionUuidSafeToString: SafeToString[Id[Option[UUID]]] = new SafeToString[Id[Option[UUID]]]{
+    @inline def safeToString(id: Id[Option[UUID]]): String = id.toString
+  }
+
   def isEmpty[T](id: Id[T])(implicit idType: IdType[T]): Boolean = id.value == idType.emptyValue
   def empty[T](implicit idType: IdType[T]): Id[T] = Id(idType.emptyValue)
 
@@ -54,7 +79,9 @@ object Id extends IdImplicitLike {
   }
 }
 
-case class Id[T: IdType](value: T) extends HasValue[T] {
+case class Id[T: IdType](value: T) extends HasValue[T] with SafeString {
+  override def safeToString: String = toString
+
   override def toString: String = value match {
     case Some(x) => x.toString
 

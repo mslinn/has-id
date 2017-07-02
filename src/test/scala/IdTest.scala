@@ -15,6 +15,8 @@ case class XOptionUuid(a: String, id: IdOptionUuid) extends HasId[XOptionUuid, O
 
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
+  val uuid: UUID = UUID.randomUUID
+
   "Copier" should {
     "only works on top-level case classes" in {
       val x = X("hi", 123)
@@ -180,6 +182,42 @@ class IdTest extends WordSpec with MustMatchers {
       val uuid = UUID.randomUUID
       Id(uuid).toString shouldBe uuid.toString
       Id[OptionUuid](Some(uuid)).toString shouldBe uuid.toString
+    }
+  }
+  "Safe" should {
+    import ai.x.safe._
+    "work with String interpolation" in {
+      safe"Converting ${ Id("hi") } to String."
+      safe"Converting ${ Id(1234L) } to String."
+      safe"Converting ${ Id(uuid) } to String."
+
+      safe"Converting ${ Id(Option("hi")) } to String."
+      safe"Converting ${ Id(Option(1234L)) } to String."
+      safe"Converting ${ Id(Option(uuid)) } to String."
+    }
+
+    "work with ===" in {
+      SafeEquals(Id("hi")) === Id("hi")
+      SafeEquals(Id(123L)) === Id(123L)
+      SafeEquals(Id(uuid)) === Id(uuid)
+
+      SafeEquals(Id("hi")) !== Id(123L)
+      SafeEquals(Id("hi")) !== Id(uuid)
+      SafeEquals(Id(123L)) !== Id("hi")
+      SafeEquals(Id(123L)) !== Id(uuid)
+      SafeEquals(Id(uuid)) !== Id("hi")
+      SafeEquals(Id(uuid)) !== Id(123L)
+
+      SafeEquals(Id(Option("hi")))  === Id(Option("hi"))
+      SafeEquals(Id(Option(1234L))) === Id(Option(1234L))
+      SafeEquals(Id(Option(uuid)))  === Id(Option(uuid))
+
+      SafeEquals(Id(Option("hi")))  !== Id(Option(123L))
+      SafeEquals(Id(Option("hi")))  !== Id(Option(123L))
+      SafeEquals(Id(Option(1234L))) !== Id(Option("hi"))
+      SafeEquals(Id(Option(1234L))) !== Id(Option(uuid))
+      SafeEquals(Id(Option(uuid)))  !== Id(Option("hi"))
+      SafeEquals(Id(Option(uuid)))  !== Id(Option(123L))
     }
   }
 }

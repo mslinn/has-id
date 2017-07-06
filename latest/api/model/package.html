@@ -90,21 +90,31 @@
 Scala developers should instead use the <a href="persistence/Id.html" class="extype" name="model.persistence.Id">Id</a> and <a href="persistence/HasId.html" class="extype" name="model.persistence.HasId">HasId</a> wrapper types provided by this project
 because of the type safety they provide over raw types.
 <code>Id</code> and <code>HasId</code> are database-agnostic.
-Both auto-increment <code>Id</code>s and <code>Id</code>s whose value is defined before persisting them are supported.</p><p><code>Id</code> can wrap <code>Long</code>, <code>UUID</code> and <code>String</code> values, and any of them can be optional.
+Both auto-increment <code>Id</code>s and <code>Id</code>s whose value is defined before persisting them are supported.</p><h4> Id </h4><p><code>Id</code> can wrap <code>Long</code>, <code>UUID</code> and <code>String</code> values, and any of them can be optional.
 The supported flavors of <code>Id</code> are:</p><ul><li><code>Id[Long]</code> - maps to Postgres <code>BIGINT</code> or <code>BIGSERIAL</code></li><li><code>Id[UUID]</code> - <a href="https://tomharrisonjr.com/uuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439" target="_blank">do not misuse</a></li><li><code>Id[String]</code></li><li><code>Id[Option[Long]]</code> - commonly used with autoincrement columns</li><li><code>Id[Option[UUID]]</code></li><li><code>Id[Option[String]]</code></li></ul><p><code>Id</code> is a Scala value object, which means there is little or no runtime cost for using it as compared to the value that it wraps.
-In other words, there is no penalty for boxing and unboxing.</p><p><code>Id</code>s define a special value, called <code>empty</code>.
+In other words, there is no penalty for boxing and unboxing.</p><h4> Convenience Types </h4><p>For convenience, the following types are defined in <a href="persistence/Types$.html" class="extype" name="model.persistence.Types">Types</a>:</p><ul><li><code>OptionLong</code>     &ndash; <code>Option[Long]</code></li><li><code>OptionString</code>   &ndash; <code>Option[String]</code></li><li><code>OptionUuid</code>     &ndash; <code>Option[UUID]</code></li><li><code>IdLong</code>         &ndash; <code>Id[Long]</code></li><li><code>IdString</code>       &ndash; <code>Id[String]</code></li><li><code>IdUuid</code>         &ndash; <code>Id[UUID]</code></li><li><code>IdOptionLong</code>   &ndash; <code>Id[Option[Long]</code></li><li><code>IdOptionString</code> &ndash; <code>Id[Option[String]]</code></li><li><code>IdOptionUuid</code>   &ndash; <code>Id[Option[UUID]]</code></li></ul><h5> Id.empty </h5><p><code>Id</code>s define a special value, called <code>empty</code>.
 Each <code>Id</code> flavor has a unique value for <code>empty</code>.
-FYI, the values for <code>empty</code> are:</p><ul><li><code>Id[UUID].empty == new UUID(0, 0)</code></li><li><code>Id[Long].empty == 0L</code></li><li><code>Id[String].empty == &quot;&quot;</code></li><li><code>Id[Option[UUID]].empty = None</code></li><li><code>Id[Option[Long]].empty = None</code></li><li><code>Id[Option[String]].empty = None</code></li></ul><p>Depending on the context, you might need to provide type ascription when using <code>Id.empty</code>.
-For example, <code>Id[UUID].empty</code> or <code>Id[Option[Long]].empty</code>.</p><p>Each case class that uses <code>Id</code> to represent the persisted record id in the database must extend <code>HasId</code>.
-The <code>HasId</code> type must match the type of the <code>Id</code> for the case class.
-For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code></li><li><code>HasId[String]</code></li><li><code>HasId[Option[Long]]</code></li><li><code>HasId[Option[UUID]]</code></li><li><code>HasId[Option[String]]</code></li></ul><p>Here are examples of using <code>Id</code> and <code>HasId</code>:</p><pre><span class="cmt">/** A person can have at most one Dog.
-  * Because their Id is based on Option[UUID], those Ids do not always have a value */</span>
+FYI, the values for <code>empty</code> are:</p><ul><li><code>IdUuid.empty == new UUID(0, 0)</code></li><li><code>IdLong.empty == 0L</code></li><li><code>IdString.empty == &quot;&quot;</code></li><li><code>IdOptionUuid.empty = None</code></li><li><code>IdOptionLong.empty = None</code></li><li><code>IdOptionString.empty = None</code></li></ul><p>Depending on the context, you might need to provide type ascription when using <code>Id.empty</code>.
+For example, <code>Id[UUID].empty</code> or <code>Id[Option[Long]].empty</code>.</p><h5> Id.toOption </h5><p>You can use the <code>Id.toOption</code> method to convert from an <code>IdLong</code> or <code>IdUuid</code> to <code>IdOptionLong</code> or <code>IdOptionUUID</code>.</p><pre>scala&gt; <span class="kw">import</span> model.persistence._
+<span class="kw">import</span> model.persistence._
+
+scala&gt; Id(<span class="std">Option</span>(<span class="num">123</span>L)).toOption
+res2: model.persistence.Id[_ <span class="kw">&gt;:</span> <span class="std">Option</span>[<span class="std">Long</span>] <span class="kw">with</span> <span class="std">Option</span>[<span class="std">Option</span>[<span class="std">Long</span>]]] = <span class="num">123</span></pre><p>Be sure to cast the result to the desired <code>Id</code> subtype, otherwise you'll get a weird unhelpful type:</p><pre>scala&gt; Id(<span class="std">Option</span>(<span class="num">123</span>L)).toOption.asInstanceOf[IdLong]
+res3: model.persistence.Id[<span class="std">Long</span>] = <span class="num">123</span>
+
+scala&gt; <span class="kw">import</span> java.util.UUID
+<span class="kw">import</span> java.util.UUID
+
+scala&gt; Id(<span class="std">Option</span>(UUID.randomUUID)).toOption.asInstanceOf[IdUUID]
+res3: model.persistence.Id[java.util.UUID] = b4570530-<span class="num">14</span>d0-<span class="num">47</span>d6-<span class="num">9</span>d8b-af3b58ed075a</pre><h4> HasId </h4><p>Each case class that uses <code>Id</code> to represent the persisted record id in the database must extend <code>HasId</code>.
+<code>HasId</code> is a parametric type with two type parameters:</p><ul><li>The first type parameter must match the name of the case class</li><li>The second type parameter must match the type of the <code>Id</code> for the case class.</li></ul><p>For example, you can make <code>MyCaseClass</code> extend <code>HasId</code> by writing something like this for the extended type:</p><ul><li><code>HasId[MyCaseClass, Long]</code></li><li><code>HasId[MyCaseClass, UUID]</code></li><li><code>HasId[MyCaseClass, String]</code></li><li><code>HasId[MyCaseClass, OptionLong]</code> &ndash; Most commonly used flavor</li><li><code>HasId[MyCaseClass, OptionUuid]</code></li><li><code>HasId[MyCaseClass, OptionString]</code></li></ul><h4> Usage Examples </h4><p>Here are examples of using <code>Id</code> and <code>HasId</code>:</p><h5> Simple Example </h5><pre><span class="cmt">/** A person can have at most one Dog.
+  * Because their Id is based on `OptionUuid`, those `Id`s do not always have `Some` value */</span>
 <span class="kw">case</span> <span class="kw">class</span> Person(
    age: <span class="std">Int</span>,
    name: <span class="std">String</span>,
-   dogId: Id[<span class="std">Option</span>[<span class="std">Long</span>]],
+   dogId: Id[OptionLong],
    <span class="kw">override</span> <span class="kw">val</span> id: Id[UUID] = Id(UUID.randomUUID) <span class="cmt">// Id type (UUID) matches the HasId type (also UUID)</span>
- ) <span class="kw">extends</span> HasId[UUID]
+ ) <span class="kw">extends</span> HasId[Person, UUID]
 
 <span class="cmt">/** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
   * Because the Ids for Dog and FavoriteTree are based on Option[Long] and not UUID,
@@ -112,8 +122,23 @@ For example:</p><ul><li><code>HasId[Long]</code></li><li><code>HasId[UUID]</code
 <span class="kw">case</span> <span class="kw">class</span> Dog(
   species: <span class="std">String</span>,
   color: <span class="std">String</span>,
-  <span class="kw">override</span> <span class="kw">val</span> id: Id[<span class="std">Option</span>[<span class="std">Long</span>]] = Id.empty
-) <span class="kw">extends</span> HasId[<span class="std">Option</span>[<span class="std">Long</span>]]</pre><h4> Type Safety </h4><p>This project incorporates the <a href="https://github.com/xdotai/safe" target="_blank">Safe project</a>, which supports typesafe comparisons:</p><ul><li><code>===</code>, a replacement for Scala's <code>==</code> operator.</li><li><code>safeContains</code>, a replacement for Scala's 'contains' method implementations.</li><li><code>~</code>, a replacement for Scala's <code>+</code> operator implementations.</li><li><code>safeMkString</code>, a replacement for Scala's <code>mkString</code> method implementations.</li><li>Scala's string interpolation can be made typesafe by using the <code>safe&quot;&quot;</code> prefix, instead of <code>s&quot;&quot;</code>.</li></ul><p>To enjoy these benefits, use the following import:</p><pre><span class="kw">import</span> ai.x.safe._</pre></div></div>
+  <span class="kw">override</span> <span class="kw">val</span> id: Id[OptionLong] = Id.empty
+) <span class="kw">extends</span> HasId[Dog, OptionLong]</pre><h5> HasId Sub-Subclasses </h5><p>Subclasses of <code>HasId</code> subclasses should be parametric.
+In the following example, <code>Rateable</code> is an abstract class that subclasses <code>HasId</code>.
+Notice that <code>Rateable</code> is parametric in <code>T</code>, and <code>HasId</code>'s first type parameter is also <code>T</code>:</p><pre><span class="kw">abstract</span> <span class="kw">class</span> Rateable[T](<span class="kw">override</span> <span class="kw">val</span> id: IdOptionLong) <span class="kw">extends</span> HasId[T, OptionLong]</pre><p>The following two <code>Rateable</code> subclasses provide values for <code>T</code> that match the names of the derived classes:</p><pre><span class="kw">case</span> <span class="kw">class</span> Inquiry(
+  title: <span class="std">String</span>,
+  body: <span class="std">String</span>,
+  userId: IdOptionLong,
+  lectureId: IdOptionLong,
+  <span class="kw">override</span> <span class="kw">val</span> id: IdOptionLong = Id.empty
+) <span class="kw">extends</span> Rateable[Inquiry](id)
+
+<span class="kw">case</span> <span class="kw">class</span> Recording(
+  ohSlotId: IdOptionLong,
+  transcript: <span class="std">String</span>,
+  active: <span class="std">Boolean</span> = <span class="kw">false</span>,
+  <span class="kw">override</span> <span class="kw">val</span> id: IdOptionLong = Id.empty
+) <span class="kw">extends</span> Rateable[Recording](id)</pre></div></div>
     </li></ol>
             </div>
 

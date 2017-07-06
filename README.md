@@ -23,23 +23,36 @@ The supported flavors of `Id` are:
 `Id` is a Scala value object, which means there is little or no runtime cost for using it as compared to the value that it wraps.
 In other words, there is no penalty for boxing and unboxing.
 
+## Convenience Types
+   For convenience, the following types are defined in `model.persistence.Types`:
+   
+   * `OptionLong`     &ndash; `Option[Long]`
+   * `OptionString`   &ndash; `Option[String]`
+   * `OptionUuid`     &ndash; `Option[UUID]`
+   * `IdLong`         &ndash; `Id[Long]`
+   * `IdString`       &ndash; `Id[String]`
+   * `IdUuid`         &ndash; `Id[UUID]`
+   * `IdOptionLong`   &ndash; `Id[Option[Long]`
+   * `IdOptionString` &ndash; `Id[Option[String]]`
+   * `IdOptionUuid`   &ndash; `Id[Option[UUID]]`
+
 ### Id.empty
 `Id`s define a special value, called `empty`.
 Each `Id` flavor has a unique value for `empty`.
 FYI, the values for `empty` are:
 
-  * `Id[UUID].empty == new UUID(0, 0)`
-  * `Id[Long].empty == 0L`
-  * `Id[String].empty == ""`
-  * `Id[Option[UUID]].empty = None`
-  * `Id[Option[Long]].empty = None`
-  * `Id[Option[String]].empty = None`
+  * `IdUuid.empty == new UUID(0, 0)`
+  * `IdLong.empty == 0L`
+  * `IdString.empty == ""`
+  * `IdOptionUuid.empty = None`
+  * `IdOptionLong.empty = None`
+  * `IdOptionString.empty = None`
 
 Depending on the context, you might need to provide type ascription when using `Id.empty`.
-For example, `Id[UUID].empty` or `Id[Option[Long]].empty`.
+For example, `IdUuid.empty` or `IdOptionLong.empty`.
 
 ### Id.toOption
-You can use the `Id.toOption` method to convert from an `Id[Long]` or `Id[UUID]` to `Id[Option[Long]]` or `Id[Option[UUID]]`.
+You can use the `Id.toOption` method to convert from an `IdLong` or `IdUuid` to `IdOptionLong` or `IdOptionUuid`.
 ```
 scala> import model.persistence._
 import model.persistence._
@@ -49,13 +62,13 @@ res2: model.persistence.Id[_ >: Option[Long] with Option[Option[Long]]] = 123
 ```
 Be sure to cast the result to the desired `Id` subtype, otherwise you'll get a weird unhelpful type:
 ```
-scala> Id(Option(123L)).toOption.asInstanceOf[Id[Long]]
+scala> Id(Option(123L)).toOption.asInstanceOf[IdLong]
 res3: model.persistence.Id[Long] = 123
 
 scala> import java.util.UUID
 import java.util.UUID
 
-scala> Id(Option(UUID.randomUUID)).toOption.asInstanceOf[Id[UUID]]
+scala> Id(Option(UUID.randomUUID)).toOption.asInstanceOf[IdUuid]
 res3: model.persistence.Id[java.util.UUID] = b4570530-14d0-47d6-9d8b-af3b58ed075a
 ```
 
@@ -68,28 +81,17 @@ For example:
   * `HasId[MyCaseClass, Long]`
   * `HasId[MyCaseClass, UUID]`
   * `HasId[MyCaseClass, String]`
-  * `HasId[MyCaseClass, Option[Long]]`
-  * `HasId[MyCaseClass, Option[UUID]]`
-  * `HasId[MyCaseClass, Option[String]]`
-
-## Convenience Types
-   For convenience, the following types are defined in `model.persistence.Types`:
-     * `OptionLong`     &ndash; `Option[Long]`
-     * `OptionString`   &ndash; `Option[String]`
-     * `OptionUuid`     &ndash; `Option[UUID]`
-     * `IdLong`         &ndash; `Id[Long]`
-     * `IdString`       &ndash; `Id[String]`
-     * `IdUuid`         &ndash; `Id[UUID]`
-     * `IdOptionLong`   &ndash; `Id[Option[Long]`
-     * `IdOptionString` &ndash; `Id[Option[String]]`
-     * `IdOptionUuid`   &ndash; `Id[Option[UUID]]`
+  * `HasId[MyCaseClass, OptionLong]` &ndash; Most commonly used flavor
+  * `HasId[MyCaseClass, OptionUuid]`
+  * `HasId[MyCaseClass, OptionString]`
 
 ## Usage Examples
 Here are examples of using `Id` and `HasId`:
  
+### Simple Example
 ```
 /** A person can have at most one Dog. 
-  * Because their Id is based on Option[UUID], those Ids do not always have a value */
+  * Because their Id is based on `OptionUuid`, those `Id`s do not always have `Some` value */
 case class Person(
    age: Int,
    name: String,
@@ -107,6 +109,32 @@ case class Dog(
 ) extends HasId[Dog, OptionLong]
 ```
 
+### HasId Sub-Subclasses
+Subclasses of `HasId` subclasses should be parametric. 
+In the following example, `Rateable` is an abstract class that subclasses `HasId`.
+Notice that `Rateable` is parametric in `T`, and `HasId`'s first type parameter is also `T`:
+```
+abstract class Rateable[T](override val id: IdOptionLong) extends HasId[T, OptionLong]
+```
+The following two `Rateable` subclasses provide values for `T` that match the names of the derived classes:
+
+```
+case class Inquiry(
+  title: String,
+  body: String,
+  userId: IdOptionLong,
+  lectureId: IdOptionLong,
+  override val id: IdOptionLong = Id.empty
+) extends Rateable[Inquiry](id)
+
+case class Recording(
+  ohSlotId: IdOptionLong,
+  transcript: String,
+  active: Boolean = false,
+  override val id: IdOptionLong = Id.empty
+) extends Rateable[Recording](id)
+```
+
 ## For More Information
 See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62) 
 for more code examples and documentation.
@@ -118,7 +146,7 @@ Add this to your project's `build.sbt`:
 
     resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
 
-    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.6" withSources()
+    libraryDependencies += "com.micronautics" %% "has-id" % "1.2.7" withSources()
 
 ## Scaladoc
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)

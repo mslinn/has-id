@@ -15,6 +15,18 @@ case class XOptionUuid(a: String, id: IdOptionUuid) extends HasId[XOptionUuid, O
 
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
+  val longValue = 1L
+  val uuidValue = UUID.randomUUID
+
+  val idLongEmpty       = Id.empty[Long]
+  val idLongSome        = Id(longValue)
+  val idOptionLongEmpty = Id.empty[OptionLong]
+  val idOptionLongSome  = Id(Option(longValue))
+  val idUuidEmpty       = Id.empty[UUID]
+  val idUuidSome        = Id(uuidValue)
+  val idOptionUuidEmpty = Id.empty[OptionUuid]
+  val idOptionUuidSome  = Id(Option(uuidValue))
+
   "Copier" should {
     "only works on top-level case classes" in {
       val x = X("hi", 123)
@@ -183,18 +195,6 @@ class IdTest extends WordSpec with MustMatchers {
     }
 
     "convert to Option" in {
-      val longValue = 1L
-      val uuidValue = UUID.randomUUID
-
-      val idLongEmpty       = Id.empty[Long]
-      val idLongSome        = Id(longValue)
-      val idOptionLongEmpty = Id.empty[OptionLong]
-      val idOptionLongSome  = Id(Option(longValue))
-      val idUuidEmpty       = Id.empty[UUID]
-      val idUuidSome        = Id(uuidValue)
-      val idOptionUuidEmpty = Id.empty[OptionUuid]
-      val idOptionUuidSome  = Id(Option(uuidValue))
-
       idLongEmpty.toOption       shouldBe idOptionLongEmpty
       idLongSome.toOption        shouldBe idOptionLongSome
       idOptionLongEmpty.toOption shouldBe idOptionLongEmpty
@@ -212,6 +212,13 @@ class IdTest extends WordSpec with MustMatchers {
       idUuidSome.fromOption.asInstanceOf[IdUuid]        shouldBe idUuidSome
       idOptionUuidEmpty.fromOption.asInstanceOf[IdUuid] shouldBe idUuidEmpty
       idOptionUuidSome.fromOption.asInstanceOf[IdUuid]  shouldBe idUuidSome*/
+    }
+    "convert to BigDecimal" in {
+      val bigDecimalZero = BigDecimal(0)
+      (idLongEmpty: BigDecimal) shouldBe bigDecimalZero
+      (idOptionLongEmpty: BigDecimal) shouldBe bigDecimalZero
+      (idLongEmpty: BigDecimal) shouldBe bigDecimalZero
+      (idOptionLongEmpty: BigDecimal) shouldBe bigDecimalZero
     }
   }
 }

@@ -2,6 +2,7 @@ package model.persistence
 
 import com.micronautics.HasValue
 import java.util.UUID
+import scala.language.implicitConversions
 
 protected sealed class IdType[+T](val emptyValue: T)
 
@@ -41,6 +42,11 @@ trait IdImplicitLike {
   implicit class ToId[From](from: From) {
     def toId[To: IdType](implicit converter: IdConverter[From, To]) = Id(converter.convertValue(from))
   }
+
+  implicit def idOptionLongToBigDecimal(id: Id[Option[Long]]): BigDecimal =
+    BigDecimal(id.value.getOrElse(Id.empty[Long].value))
+
+  implicit def idLongToBigDecimal(id: Id[Long]): BigDecimal = BigDecimal(id.value)
 }
 
 object IdImplicits extends IdImplicitLike

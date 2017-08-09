@@ -1,5 +1,6 @@
 # has-id
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/mslinn/has-id.svg?branch=master)](https://travis-ci.org/mslinn/has-id)
 [![GitHub version](https://badge.fury.io/gh/mslinn%2Fhas-id.svg)](https://badge.fury.io/gh/mslinn%2Fhas-id)
 
@@ -11,7 +12,7 @@ Both auto-increment `Id`s and `Id`s whose value is defined before persisting the
 
 ## Id
 `Id` can wrap `Long`, `UUID` and `String` values, and any of them can be optional.
-The supported flavors of `Id` are: 
+The supported flavors of `Id` are:
 
   * `Id[Long]` &ndash; maps to Postgres `BIGINT` or `BIGSERIAL`
   * `Id[UUID]` &ndash; [do not misuse](https://tomharrisonjr.com/uuid-or-guid-as-primary-keys-be-careful-7b2aa3dcb439)
@@ -25,7 +26,7 @@ In other words, there is no penalty for boxing and unboxing.
 
 ## Convenience Types
    For convenience, the following types are defined in `model.persistence.Types`:
-   
+
    * `OptionLong`     &ndash; `Option[Long]`
    * `OptionString`   &ndash; `Option[String]`
    * `OptionUuid`     &ndash; `Option[UUID]`
@@ -77,7 +78,7 @@ Each case class that uses `Id` to represent the persisted record id in the datab
 `HasId` is a parametric type with two type parameters:
   * The first type parameter must match the name of the case class
   * The second type parameter must match the type of the `Id` for the case class.
-For example: 
+For example:
   * `HasId[MyCaseClass, Long]`
   * `HasId[MyCaseClass, UUID]`
   * `HasId[MyCaseClass, String]`
@@ -87,10 +88,10 @@ For example:
 
 ## Usage Examples
 Here are examples of using `Id` and `HasId`:
- 
+
 ### Simple Example
 ```
-/** A person can have at most one Dog. 
+/** A person can have at most one Dog.
   * Because their Id is based on `OptionUuid`, those `Id`s do not always have `Some` value */
 case class Person(
    age: Int,
@@ -100,7 +101,7 @@ case class Person(
  ) extends HasId[Person, UUID]
 
 /** Dogs are territorial. They ensure that no other Dogs are allowed near their FavoriteTrees.
-  * Because the Ids for Dog and FavoriteTree are based on Option[Long] and not UUID, 
+  * Because the Ids for Dog and FavoriteTree are based on Option[Long] and not UUID,
   * those Ids might have value None until they are persisted */
 case class Dog(
   species: String,
@@ -110,7 +111,7 @@ case class Dog(
 ```
 
 ### HasId Sub-Subclasses
-Subclasses of `HasId` subclasses should be parametric. 
+Subclasses of `HasId` subclasses should be parametric.
 In the following example, `Rateable` is an abstract class that subclasses `HasId`.
 Notice that `Rateable` is parametric in `T`, and `HasId`'s first type parameter is also `T`:
 ```
@@ -136,7 +137,7 @@ case class Recording(
 ```
 
 ## For More Information
-See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62) 
+See the [unit tests](https://github.com/mslinn/has-id/blob/master/src/test/scala/IdTest.scala#L32-L62)
 for more code examples and documentation.
 For an example of `has-id` in a real Scala project, see [play-authenticated](https://github.com/mslinn/play-authenticated/).
 

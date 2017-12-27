@@ -108,4 +108,6 @@ trait HasId[T, A] extends IdImplicitLike {
   def id: Id[A]
 
   def setId(newId: Id[A]): T = Copier.apply[T](this.asInstanceOf[T], "id" -> newId)
+
+//  def clearId: T = setId(Id.empty[A]) // TODO how to make this work?
 }

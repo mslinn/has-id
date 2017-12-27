@@ -3,10 +3,11 @@ cancelable := true
 crossScalaVersions := Seq(scalaVersion.value, "2.12.4")
 
 developers := List(
-  Developer("mslinn",
-            "Mike Slinn",
-            "mslinn@micronauticsresearch.com",
-            url("https://github.com/mslinn")
+  Developer(
+    "mslinn",
+    "Mike Slinn",
+    "mslinn@micronauticsresearch.com",
+    url("https://github.com/mslinn")
   )
 )
 

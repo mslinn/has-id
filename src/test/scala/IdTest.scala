@@ -16,16 +16,16 @@ case class XOptionUuid(a: String, id: IdOptionUuid) extends HasId[XOptionUuid, O
 @RunWith(classOf[JUnitRunner])
 class IdTest extends WordSpec with MustMatchers {
   val longValue = 1L
-  val uuidValue = UUID.randomUUID
+  val uuidValue: UUID = UUID.randomUUID
 
-  val idLongEmpty       = Id.empty[Long]
-  val idLongSome        = Id(longValue)
-  val idOptionLongEmpty = Id.empty[OptionLong]
-  val idOptionLongSome  = Id(Option(longValue))
-  val idUuidEmpty       = Id.empty[UUID]
-  val idUuidSome        = Id(uuidValue)
-  val idOptionUuidEmpty = Id.empty[OptionUuid]
-  val idOptionUuidSome  = Id(Option(uuidValue))
+  val idLongEmpty: Id[Long] = Id.empty[Long]
+  val idLongSome: Id[Long] = Id(longValue)
+  val idOptionLongEmpty: Id[OptionLong] = Id.empty[OptionLong]
+  val idOptionLongSome: Id[Option[Long]] = Id(Option(longValue))
+  val idUuidEmpty: Id[UUID] = Id.empty[UUID]
+  val idUuidSome: Id[UUID] = Id(uuidValue)
+  val idOptionUuidEmpty: Id[OptionUuid] = Id.empty[OptionUuid]
+  val idOptionUuidSome: Id[Option[UUID]] = Id(Option(uuidValue))
 
   "Copier" should {
     "only works on top-level case classes" in {
@@ -43,10 +43,14 @@ class IdTest extends WordSpec with MustMatchers {
 
       val actual = x.setId(Id(Some(456L)))
       actual shouldBe desired
+
+      val actual2 = x.setId(Id.empty)
+      val desired2 = XOptionLong("hi", Id.empty)
+      actual2 shouldBe desired2
     }
 
     "work for HasId[_, Long]" in {
-      val x = XLong("hi", Id(123L))
+      val x: XLong = XLong("hi", Id(123L))
       val desired = XLong("hi", Id(456L))
 
       val actual0 = Copier(x, ("id", Id(456L)))
@@ -54,6 +58,10 @@ class IdTest extends WordSpec with MustMatchers {
 
       val actual = x.setId(Id(456L))
       actual shouldBe desired
+
+      val actual2 = x.setId(Id.empty)
+      val desired2 = XLong("hi", Id.empty)
+      actual2 shouldBe desired2
     }
 
     val uid1 = UUID.randomUUID
@@ -68,6 +76,10 @@ class IdTest extends WordSpec with MustMatchers {
 
       val actual = x.setId(Id(uid2))
       actual shouldBe desired
+
+      val actual2 = x.setId(Id.empty)
+      val desired2 = XUuid("hi", Id.empty)
+      actual2 shouldBe desired2
     }
 
     "work for Id[_, OptionUuid]" in {
@@ -79,6 +91,10 @@ class IdTest extends WordSpec with MustMatchers {
 
       val actual = x.setId(Id(Some(uid2)))
       actual shouldBe desired
+
+      val actual2 = x.setId(Id.empty)
+      val desired2 = XOptionUuid("hi", Id.empty)
+      actual2 shouldBe desired2
     }
   }
 

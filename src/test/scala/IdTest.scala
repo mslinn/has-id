@@ -4,7 +4,7 @@ import model.persistence.{Copier, HasId, Id}
 import org.junit.runner.RunWith
 import org.scalatest.Matchers._
 import org.scalatest._
-import org.scalatest.junit.JUnitRunner
+import org.scalatestplus.junit.JUnitRunner
 
 /** Top-level case classes for [[Copier]] */
 case class X(a: String, id: Int)

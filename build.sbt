@@ -1,6 +1,6 @@
 cancelable := true
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.4")
+crossScalaVersions := Seq("2.11.11", "2.12.8", "2.13.0")
 
 developers := List(
   Developer(
@@ -26,11 +26,11 @@ javacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.micronautics"  %% "has-value"     % "1.0.1" withSources(),
+  "com.micronautics"  %% "has-value"     % "1.1.0" withSources(),
   "org.scala-lang"    %  "scala-reflect" % scalaVersion.value,
   //
-  "org.scalatest"     %% "scalatest"  % "3.0.1" % "test" withSources(),
-  "junit"             %  "junit"      % "4.12"  % "test"
+  "org.scalatest"     %% "scalatest"  % "3.0.8" % Test withSources(),
+  "junit"             %  "junit"      % "4.12"  % Test
 )
 
 logLevel := Level.Warn
@@ -54,23 +54,17 @@ scalacOptions ++= Seq(
   "-feature",
   "-target:jvm-1.8",
   "-unchecked",
-  "-Ywarn-adapted-args",
-  "-Ywarn-dead-code",
-  "-Ywarn-numeric-widen",
-  "-Ywarn-unused",
-  "-Ywarn-value-discard",
-  "-Xfuture",
   "-Xlint"
 )
 
 scalacOptions in (Compile, doc) ++= baseDirectory.map {
-  (bd: File) => Seq[String](
+  bd: File => Seq[String](
      "-sourcepath", bd.getAbsolutePath,
      "-doc-source-url", "https://github.com/mslinn/has-id/tree/master€{FILE_PATH}.scala"
   )
 }.value
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.13.0"
 
 scmInfo := Some(
   ScmInfo(
@@ -81,4 +75,4 @@ scmInfo := Some(
 
 sublimeTransitive := true
 
-version := "1.2.8"
+version := "1.3.0"

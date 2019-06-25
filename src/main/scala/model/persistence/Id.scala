@@ -16,7 +16,7 @@ protected object IdType {
   implicit object UUIDWitness   extends IdType[UUID](emptyUuid)
 
   // delegates to other IdTypes
-  implicit def OptionWitness[T]( implicit contained: IdType[T] ): IdType[Option[T]]
+  implicit def OptionWitness[T](implicit contained: IdType[T]): IdType[Option[T]]
     = new IdType[Option[T]](None)
 }
 

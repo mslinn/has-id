@@ -145,7 +145,7 @@ For an example of `has-id` in a real Scala project, see [play-authenticated](htt
 Both Scala 2.11 and Scala 2.12 are supported.
 Add this to your project's `build.sbt`:
 
-    resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
+    resolvers += "micronautics/scala on bintray" at "https://dl.bintray.com/micronautics/scala"
 
     libraryDependencies += "com.micronautics" %% "has-id" % "1.2.8" withSources()
 
@@ -153,10 +153,10 @@ Add this to your project's `build.sbt`:
 [Here](http://mslinn.github.io/has-id/latest/api/#model.persistence.package)
 
 ## Sponsor
-This project is sponsored by [Micronautics Research Corporation](http://www.micronauticsresearch.com/),
-the company that delivers online Scala and Play training via [ScalaCourses.com](http://www.ScalaCourses.com).
-You can learn how this project works by taking the [Introduction to Scala](http://www.ScalaCourses.com/showCourse/40),
-and [Intermediate Scala](http://www.ScalaCourses.com/showCourse/45) courses.
+This project is sponsored by [Micronautics Research Corporation](https://www.micronauticsresearch.com/),
+the company that delivers online Scala and Play training via [ScalaCourses.com](https://www.ScalaCourses.com).
+You can learn how this project works by taking the [Introduction to Scala](https://www.ScalaCourses.com/showCourse/40),
+and [Intermediate Scala](https://www.ScalaCourses.com/showCourse/45) courses.
 
 ## License
-This software is published under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
+This software is published under the [Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0.html).

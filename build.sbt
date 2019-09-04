@@ -75,4 +75,6 @@ scmInfo := Some(
 
 sublimeTransitive := true
 
+ThisBuild / turbo := true
+
 version := "1.3.0"

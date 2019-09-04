@@ -46,7 +46,7 @@ name := "has-id"
 
 organization := "com.micronautics"
 
-resolvers += "micronautics/scala on bintray" at "http://dl.bintray.com/micronautics/scala"
+resolvers += "micronautics/scala on bintray" at "https://dl.bintray.com/micronautics/scala"
 
 scalacOptions ++= Seq(
   "-deprecation",

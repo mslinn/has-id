@@ -11,7 +11,7 @@ developers := List(
   )
 )
 
-licenses +=  ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+licenses +=  ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
 
 // define the statements initially evaluated when entering 'console', 'console-quick', but not 'console-project'
 initialCommands in console := """
